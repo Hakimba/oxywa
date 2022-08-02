@@ -1,0 +1,5 @@
+(executable
+ (public_name oxywa)
+ (name main)
+ (promote (until-clean))
+ (libraries oxywa yocaml yocaml_unix yocaml_yaml yocaml_mustache yocaml_markdown))
