@@ -20,10 +20,11 @@ jobs:
           ocaml-version: 4.14.x
     
       - run: opam install . --deps-only --with-doc --with-test
-      - run: opam install yocaml
-      - run: opam install yocaml_unix yocaml_yaml yocaml_jingoo
-      - run: opam exec -- dune exec bin/main.exe -- build
-    
+      - run: opam pin add yocaml https://github.com/xhtmlboi/yocaml.git
+      - run: opam pin add yocaml_unix https://github.com/xhtmlboi/yocaml.git
+      - run: opam pin add yocaml_markdown https://github.com/xhtmlboi/yocaml.git
+      - run: opam pin add yocaml_yaml https://github.com/xhtmlboi/yocaml.git
+      - run: opam pin add yocaml_mustache https://github.com/xhtmlboi/yocaml.git
     
       - name: GitHub Pages action
         uses: peaceiris/actions-gh-pages@v3.7.3
