@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    -
     - name: Set up OCaml
       # You may pin to the exact commit or the version.
       # uses: ocaml/setup-ocaml@6d924c1a7769aa5cdd74bdd901f6e24eb05024b1
@@ -29,4 +28,4 @@ jobs:
     - name: GitHub Pages action
       uses: peaceiris/actions-gh-pages@v3.7.3
       with:
-        publish_branch:gh-pages
+        publish_branch: gh-pages
