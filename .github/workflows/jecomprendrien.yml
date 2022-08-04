@@ -1,0 +1,32 @@
+name: jecomprendrien
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    -
+    - name: Set up OCaml
+      # You may pin to the exact commit or the version.
+      # uses: ocaml/setup-ocaml@6d924c1a7769aa5cdd74bdd901f6e24eb05024b1
+      uses: ocaml/setup-ocaml@v1.1.11
+      with:
+        ocaml-version: 4.14.x
+    
+    - run: opam install . --deps-only --with-doc --with-test
+    - run: opam install yocaml
+    - run: opam install yocaml_unix yocaml_yaml yocaml_jingoo
+    - run: opam exec -- dune exec bin/main.exe -- build
+    
+    
+    - name: GitHub Pages action
+      uses: peaceiris/actions-gh-pages@v3.7.3
+      with:
+        publish_branch:gh-pages
