@@ -12,7 +12,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       
       - name: Set up OCaml
         uses: ocaml/setup-ocaml@v2
@@ -27,7 +27,7 @@ jobs:
       - run: opam pin add yocaml_mustache https://github.com/xhtmlboi/yocaml.git
     
       - name: GitHub Pages action
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v3.8.0
         with:
           deploy_key: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./www/oxywa
