@@ -1,0 +1,33 @@
+name: jecomprendrien
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Set up OCaml
+        uses: ocaml/setup-ocaml@v2
+        with:
+          ocaml-version: 4.14.x
+    
+      - run: opam install . --deps-only --with-doc --with-test
+      - run: opam pin add yocaml https://github.com/xhtmlboi/yocaml.git
+      - run: opam pin add yocaml_unix https://github.com/xhtmlboi/yocaml.git
+      - run: opam pin add yocaml_markdown https://github.com/xhtmlboi/yocaml.git
+      - run: opam pin add yocaml_yaml https://github.com/xhtmlboi/yocaml.git
+      - run: opam pin add yocaml_mustache https://github.com/xhtmlboi/yocaml.git
+      - run: opam exec -- dune exec bin/main.exe -- build
+    
+      - name: GitHub Pages action
+        uses: peaceiris/actions-gh-pages@v3.8.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site/oxywa
+          publish_branch: gh-pages
