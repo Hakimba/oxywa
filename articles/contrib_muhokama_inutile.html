@@ -18,8 +18,7 @@
 
 <article>
     <h2>Un guide simple pour rajouter une page inutile dans muhokama.</h2>
-    <p>[TOC]</p>
-<p>Plutot qu'un guide, c'est surtout un truc que j'ai écrit pour garder une trace de mon exploration du code de muhokama, donc pas très structuré, imprécis et probablement faux sur certaines explication. ça pourrais en devenir un avec + de travail</p>
+    <p>Plutot qu'un guide, c'est surtout un truc que j'ai écrit pour garder une trace de mon exploration du code de muhokama, donc pas très structuré, imprécis et probablement faux sur certaines explication. ça pourrais en devenir un avec + de travail</p>
 <p>Mais ce <em>&quot;guide&quot;</em> devrais permettre d'avoir une intuition très rapidement de toute les étapes a suivre pour rajouter une page dans muhokama from scratch, en tout cas c'est l'intention.</p>
 <p>L'architecture de l'application est un MVC, mais pour notre guide nous n'allons pas regarder la partie modèle.</p>
 <p>Et toute ses parties sont divisé en ombrelles conceptuelles, qui sont pour l'instant :</p>
@@ -127,8 +126,6 @@ let dummy () = get (~/&quot;user&quot; / &quot;dummy&quot;)
 </code></pre>
 <p>C'est un extrait de code du fichier, ou on peut voir que chaque service codé dois etre &quot;branché&quot;. Si on en enlève un, il ne seras plus disponible sur le site (vous aurez en réponse une erreur 404 si vous essayez d'atteindre ce service).</p>
 <p>On voit bien que les services y sont séparé en fonction de l'ombrelle conceptuelle* auxquels ils sont rattaché, le service de login c'est un service propre aux utilisateurs du site, par exemple.</p>
-<h3>Ecrire des tests</h3>
-<p>TBD</p>
 <h3>Lancer Muhokama</h3>
 <p>Après cette dernière étape, vous pouvez build avec <code>make</code> et lancer l'application avec <code>./bin/muhokama.exe server.launch</code>.</p>
 <p>Premier test, vous pouvez essayez d'acceder a la route que vous avez créer sans etre connecté, vous verrez que vous serez redirigé vers la page de connection grace au middleware <code>user_authenticated</code>.</p>
