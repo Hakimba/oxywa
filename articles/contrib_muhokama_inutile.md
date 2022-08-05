@@ -1,6 +1,6 @@
 ---
 date: 2022-08-04
-article_title: [WIP] Un guide simple pour rajouter une page inutile dans muhokama.
+article_title: WIP - Un guide simple pour rajouter une page inutile dans muhokama.
 article_description: Un truc que j'ai écrit pour garder une trace de mon exploration du code de muhokama, et pour en aider d'autres dans la leur.
 ---
 
