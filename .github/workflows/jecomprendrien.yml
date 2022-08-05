@@ -25,6 +25,7 @@ jobs:
       - run: opam pin add yocaml_markdown https://github.com/xhtmlboi/yocaml.git
       - run: opam pin add yocaml_yaml https://github.com/xhtmlboi/yocaml.git
       - run: opam pin add yocaml_mustache https://github.com/xhtmlboi/yocaml.git
+      - run: opam exec -- dune exec bin/main.exe -- build
     
       - name: GitHub Pages action
         uses: peaceiris/actions-gh-pages@v3.8.0
