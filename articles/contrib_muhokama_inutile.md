@@ -4,8 +4,6 @@ article_title: Un guide simple pour rajouter une page inutile dans muhokama.
 article_description: Un truc que j'ai écrit pour garder une trace de mon exploration du code de muhokama, et pour en aider d'autres dans la leur.
 ---
 
-[TOC]
-
 Plutot qu'un guide, c'est surtout un truc que j'ai écrit pour garder une trace de mon exploration du code de muhokama, donc pas très structuré, imprécis et probablement faux sur certaines explication. ça pourrais en devenir un avec + de travail
 
 Mais ce *"guide"* devrais permettre d'avoir une intuition très rapidement de toute les étapes a suivre pour rajouter une page dans muhokama from scratch, en tout cas c'est l'intention.
@@ -130,10 +128,6 @@ Lib_service.Service.choose
 C'est un extrait de code du fichier, ou on peut voir que chaque service codé dois etre "branché". Si on en enlève un, il ne seras plus disponible sur le site (vous aurez en réponse une erreur 404 si vous essayez d'atteindre ce service).
 
 On voit bien que les services y sont séparé en fonction de l'ombrelle conceptuelle* auxquels ils sont rattaché, le service de login c'est un service propre aux utilisateurs du site, par exemple.
-
-### Ecrire des tests
-
-TBD
 
 ### Lancer Muhokama
 
