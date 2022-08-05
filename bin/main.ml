@@ -1,6 +1,6 @@
 open Yocaml
 
-let pages_destination = "_build";;
+let pages_destination = "_site/oxywa";;
 let css_destination = into pages_destination "css";;
 let images_destination = into pages_destination "images";;
 
