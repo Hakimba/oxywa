@@ -1,14 +1,12 @@
 ---
 date: 2022-08-07
-article_title: Le meilleur kebab d'ile de france
-article_description: Je vous parle du meilleur kebab d'ile de france, Papa grill.
+article_title: Le meilleur kebab d'Île-de-France
+article_description: Je vous parle du meilleur kebab d'Île-de-France, Papa grill.
 ---
-
-## Le meilleur kebab d'ile de france
 
 D'abord, pour situer correctement, voici un extrait de la page wikipedia qui parle de l'Île-de-France.
 
->L'Île-de-France, est une région historique et administrative française. Il s'agit d'une région très >fortement peuplée, qui représente à elle seule 18,8 % de la population de la France métropolitaine sur seulement 2,2 % de sa >superficie, ce qui en fait la région la plus peuplée (12,40 millions d'habitants en 2022) et la plus densément peuplée (1 017 >hab/km2) de France. 
+> L'Île-de-France, est une région historique et administrative française. Il s'agit d'une région très fortement peuplée, qui représente à elle seule 18,8 % de la population de la France métropolitaine sur seulement 2,2 % de sa superficie, ce qui en fait la région la plus peuplée (12,40 millions d'habitants en 2022) et la plus densément peuplée (1 017 hab/km2) de France. 
 
 Dans cette région, se trouve une ville, Melun, souvent moquée. : 
 
@@ -43,6 +41,6 @@ Pour éviter tout malentendu et tout moment de gêne dont j'ai déjà été tém
 
 En disant *"un demi svp"* a la place de *"un grec svp"* ou *"un kebab svp"*, croyez moi, vous passerez pour un vrai melunais.
 
-Si d'aventure vous vient l'envie de venir l'essayer, vous devez faire attention, parce qu'officiellement, il y a deux Papa grill a Melun, mais il n'y a qu'un seul meilleur kebab d'Île-de-France, vous avez un **26 Bd Gambetta, 77000 Melun**, et un **3 Rue des Grandes 77000 Melun**, c'est le deuxième où il faut aller. Et une fois que vous y avez mangé, envoyez moi un email a hakim.baaloudj@gmail.com pour me donner votre avis, j'en serais vraiment ravis..
+Si d'aventure vous vient l'envie de venir l'essayer, vous devez faire attention, parce qu'officiellement, il y a deux Papa grill a Melun, mais il n'y a qu'un seul meilleur kebab d'Île-de-France, vous avez un **26 Bd Gambetta, 77000 Melun**, et un **3 Rue des Grandes 77000 Melun**, c'est le deuxième où il faut aller. Et une fois que vous y avez mangé, envoyez moi un email a *hakim.baaloudj@gmail.com* pour me donner votre avis, j'en serais vraiment ravis..
 
 **C'est pas un placement de produit**

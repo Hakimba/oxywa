@@ -1,15 +1,20 @@
 {{{body}}}
 
-<h3>Articles</h3>
-
-<ol reversed class="list-articles">
-{{#articles}}
-<li>
-  <span class="date">{{#date}}{{canonical}}{{/date}}</span>
-  <a href="{{url}}">{{article_title}}</a><br />
-  <p>{{article_description}}</p>
-  <span class="tag is-dark">OCaml</span>
-  <span class="tag is-dark">Web</span>
-</li>
-{{/articles}}
-</ol>
+<div>
+  <div class="block">
+    <h3>Articles</h3>
+  </div>
+  
+  <div class="block">
+  
+      <ol reversed class="list-articles">
+      {{#articles}}
+      <li>
+        <span class="date">{{#date}}{{canonical}}{{/date}}</span>
+        <a href="{{url}}">{{article_title}}</a><br />
+        <p>{{article_description}}</p>
+      </li>
+      {{/articles}}
+      </ol>
+  </div>
+</div>
