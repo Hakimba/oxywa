@@ -26,14 +26,14 @@ Un autre angle pour voir la viande
 
 ![c'est gros ouais](../images/entier2.png)
 
-Impressionnant non ? (ces images ne sont pas de moi.).
+Impressionnant non ? (ces images ne sont pas de moi).
 Vous pouvez aussi demander votre demi ou votre entier dans une crêpe [durum](https://fr.wikipedia.org/wiki/D%C3%BCr%C3%BCm), ils se distinguent par le fait que la quantité de viande nécessaire pour être appelé un demi est contenue dans une seule crêpe, alors que l'entier nécessite deux crêpes.
 
 Pour éviter tout malentendu et tout moment de gêne dont j'ai déjà été témoin, je vais vous simuler une prise de commande au Papa grill pour que vous puissiez vous entraîner : 
 
 - "Bonjour"
 - "Bonjour, sur place ou a emporté ?"
-- "Sur place svp, donc ce seras un demi, sauce blanche, salades oignons" (vous pouvez demander vos oignonq cuit, ils seront un peu caramelisé c'est un délice)
+- "Sur place svp, donc ce seras un demi, sauce blanche, salades oignons" (vous pouvez demander vos oignons cuit, ils seront un peu caramelisé c'est un délice)
 - "Avec frites ?"
 - "Oui"
 - "Ok c'est bon"
