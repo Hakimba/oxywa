@@ -9,25 +9,24 @@
     <section class="hero">
       <div class="hero-body">
         <p class="title">
-          Oxywa
+          <a href="index.html">Owyxa</a>
         </p>
         <p class="subtitle">
           Mon tout premier blog
         </p>
       </div>
     </section>
-    <ul>
-        <!-- "A powerful menu"  -->
-        <li><a href="index.html">Home</a></li>
-    </ul>
-    <hr>
-    {{#title}}<h2>{{.}}</h2>{{/title}}
-    {{#description}}<p>{{.}}</p>{{/description}}
-    <main class="content">
+    <div class="columns is-centered">
+      <div class="column is-half">
+        {{#description}}<p>{{.}}</p>{{/description}}
+      </div>
+    </div>
+    <div class="columns is-multiline content">
+      <div class="column is-narrow"></div>
+      <div class="column is-narrow">
         {{{body}}}
-    </main>
-    <hr>
-    copyright <strong>Hakb</strong>
+      </div>
+    </div>
 </body>
 <footer class="footer">
     <div class="content has-text-centered">
