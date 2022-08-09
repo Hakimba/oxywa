@@ -4,48 +4,60 @@
     <title>Oxywa</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style type="text/css" media="screen">
+      body {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+      }
+ 
+      main {
+        flex: 1;
+      }
+
+      .block {
+        padding-top:30px;
+        padding-left: 50px;
+      }
+    </style>
 </head>
 <body>
     <section class="hero">
       <div class="hero-body">
         <p class="title">
-          <a href="index.html">Owyxa</a>
+          <a href="index.html">Oxywa</a>
         </p>
         <p class="subtitle">
           Mon tout premier blog
         </p>
       </div>
     </section>
-    <div class="columns is-centered">
-      <div class="column is-half">
-        <p>Ce blog a pour unique prétention d&apos;être l&apos;endroit où je vais publier du texte sur des sujets qui m&apos;intéressent, que je ne comprend que très peu ou pas du tout, en essayant d&apos;être toujours le plus clair possible. L&apos;unique façon de connaître la provenance du nom du blog, c&apos;est de me rencontrer en vrai parce que l&apos;histoire est hi-la-rante.</p>
+    <main>
+      <div class="columns is-centered">
+        <div class="column is-half">
+          <p>Ce blog a pour unique prétention d&apos;être l&apos;endroit où je vais publier du texte sur des sujets qui m&apos;intéressent, que je ne comprend que très peu ou pas du tout, en essayant d&apos;être toujours le plus clair possible. L&apos;unique façon de connaître la provenance du nom du blog, c&apos;est de me rencontrer en vrai parce que l&apos;histoire est hi-la-rante.</p>
+        </div>
       </div>
-    </div>
       <div class="columns content">
         <div class="column">
           
 
-<div>
   <div class="block">
     <h3>Articles</h3>
+    <ol reversed class="list-articles">
+    <li>
+      <span class="date">2022-08-07</span>
+      <a href="articles/meilleur-kebab-idf.html">Le meilleur kebab d&apos;Île-de-France</a><br />
+      <p>Je vous parle du meilleur kebab d&apos;Île-de-France, Papa grill.</p>
+    </li>
+    </ol>
   </div>
-  
-  <div class="block">
-  
-      <ol reversed class="list-articles">
-      <li>
-        <span class="date">2022-08-07</span>
-        <a href="articles/meilleur-kebab-idf.html">Le meilleur kebab d&apos;Île-de-France</a><br />
-        <p>Je vous parle du meilleur kebab d&apos;Île-de-France, Papa grill.</p>
-      </li>
-      </ol>
-  </div>
-</div>
         </div>
       </div>
+    </main>
 </body>
 <footer class="footer">
-    <div class="content has-text-centered">
+    <div class=" has-text-centered">
         <p>
         <strong>Oxywa</strong>, généré avec <a href="https://github.com/xhtmlboi/yocaml">YOCaml</a>.
         </p>
