@@ -15,7 +15,7 @@ jobs:
       - name: Set up OCaml
         uses: ocaml/setup-ocaml@v2
         with:
-          ocaml-version: 4.14.x
+          ocaml-compiler: 4.14.x
     
       - run: opam install . --deps-only --with-doc --with-test
       - run: opam install yocaml
