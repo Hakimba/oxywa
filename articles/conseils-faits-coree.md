@@ -40,11 +40,10 @@ Mais je m'égare, dans tout ces coffee shop (tous), vous verrez les boissons sé
 
 Et après 1 semaine de vacances à en boire tous les jours, j'ai finis par comprendre que **ade** est une généralisation de la limonade ! En France, a par limonade et orangeade, je n'ai jamais entendu d'autres mots composé d'un fruit et de **ade** etre utilisé.
 
-Et en fait 100% du temps où je commande une limonade en France a autre chose qu'au citron, je dis *"une limonade a/au **<fruit>**"*, et si vous tapez ça sur google vous verrez que c'est commun. *(Bon ok, une limonade a la fraise c'est une boisson gazeuse sucré au citron et a la fraise, mais si je veux pas de citron et juste de la fraise ? Personne ne dit ananasade...)*
+Et en fait 100% du temps où je commande une limonade en France a autre chose qu'au citron, je dis *"une limonade a/au **<fruit>**"*, et si vous tapez ça sur google vous verrez que c'est commun. *(Bon ok, une limonade a l'ananas c'est une boisson gazeuse sucré au citron et a l'ananas, mais si je veux pas de citron et juste de la fraise ? Personne ne dit ananasade...)*
 
 En bref, les coréens eux sont plus malin ! Ade est une catégorie de boisson, et vous choissisez juste le fruit.
     
 ### Conclusion
     
-    
-Voilà, j'espère que cet article vous sera utile quand vous irez en Corée, ou que vous avez appris des trucs, je suis toujours ouvert au débat et reste disponible par mail (felous77@gmail.com) le cas échéant. 
+Voilà, j'espère que cet article vous sera utile quand vous irez en Corée, ou que vous avez appris des trucs.

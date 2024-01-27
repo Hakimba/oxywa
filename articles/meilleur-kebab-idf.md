@@ -41,6 +41,6 @@ Pour éviter tout malentendu et tout moment de gêne dont j'ai déjà été tém
 
 En disant *"un demi svp"* a la place de *"un grec svp"* ou *"un kebab svp"*, croyez moi, vous passerez pour un vrai melunais.
 
-Si d'aventure vous vient l'envie de venir l'essayer, vous devez faire attention, parce qu'officiellement, il y a deux Papa grill a Melun, mais il n'y a qu'un seul meilleur kebab d'Île-de-France, vous avez un **26 Bd Gambetta, 77000 Melun**, et un **3 Rue des Grandes 77000 Melun**, c'est le deuxième où il faut aller. Et une fois que vous y avez mangé, envoyez moi un email a *hakim.baaloudj@gmail.com* pour me donner votre avis, j'en serai vraiment ravi...
+Si d'aventure vous vient l'envie de venir l'essayer, vous devez faire attention, parce qu'officiellement, il y a deux Papa grill a Melun, mais il n'y a qu'un seul meilleur kebab d'Île-de-France, vous avez un **26 Bd Gambetta, 77000 Melun**, et un **3 Rue des Grandes 77000 Melun**, c'est le deuxième où il faut aller. Et une fois que vous y avez mangé, envoyez moi un message pour me donner votre avis, j'en serai vraiment ravi...
 
 **C'est pas un placement de produit**
