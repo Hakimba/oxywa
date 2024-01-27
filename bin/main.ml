@@ -14,7 +14,7 @@ let images =
   let open Preface.Predicate in
   process_files
     [ "images" ]
-    (with_extension "png" || with_extension "jpeg")
+    (with_extension "png" || with_extension "jpeg" || with_extension "gif" )
     (fun file -> Build.copy_file file ~into:images_destination);;
 
 let may_process_markdown file =

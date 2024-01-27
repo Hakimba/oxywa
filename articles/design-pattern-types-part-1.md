@@ -1,6 +1,6 @@
 ---
 date: 2024-01-27
-article_title: Design pattern typés - partie 1
+article_title: Pattern d'encodage de garanties statique - Partie 1
 article_description: Traduction en OCaml du papier "typed design pattern for functional era"
 ---
 
@@ -12,9 +12,9 @@ C’est une question que je me suis posée récemment, et aujourd’hui encore i
 
 Dans ce contexte, j’ai apprécié la lecture du papier [Typed design pattern for functional era](https://arxiv.org/pdf/2307.07069.pdf) qui tente d'aborder une partie du sujet en présentant 4 problèmes plus ou moins généraux, et 4 solutions plus ou moins générales qui reposent sur l'encodage de garanties statiques via le systeme de type de Rust.
 
-**Seul problème** : c’est écrit en **RUST**
+**Seul problème** : c’est écrit en ![](../images/krisslash.gif) **RUST**
 
-Ne connaissant pas Rust, j'ai parfois eu beaucoup de mal à lire les implémentations. J'ai ensuite eu la forte intuition que ce serait plus lisible si c'était écrit dans un langage tout à fait sympathique que j'ai découvert récemment : **[OCaml](https://ocaml.org/)**
+Ne connaissant pas Rust, j'ai parfois eu beaucoup de mal à lire les implémentations. J'ai ensuite eu la forte intuition que ce serait plus lisible si c'était écrit dans un langage tout à fait sympathique que j'ai découvert récemment : ![](../images/krisheart.gif) **[OCaml](https://ocaml.org/)**
 
 Je vous propose ici une série d'articles sur la traduction des exemples/problématiques du papier en OCaml. J'ai fait de mon mieux pour que lire le papier d'origine ne soit pas un prérequis pour comprendre ce que j'ai écrit. Il y a en tout 4 design patterns, et cette première salve d'articles traitera des 3 premiers. *(parce que j'ai toujours pas réussi a faire le dernier...)*
 
@@ -41,7 +41,7 @@ La donnée à laquelle on aimerait accéder, c'est la page, et la condition, c�
 
 Imaginons que le contexte de notre site web soit encodé de cette manière :
 
-```ocaml=
+```ocaml
 type user = {name : string; is_admin : bool}
 type context = {current_user: user}
 exception Render404
@@ -56,7 +56,7 @@ let render_admin_page () =
 
 J’imagine que tout de suite un réflexe serait d’écrire :
 
-```ocaml=
+```ocaml
 let admin_page context =
   if context.current_user.is_admin then
     render_admin_page ()
@@ -68,7 +68,7 @@ Là, vous pourriez penser : "Yes, j'ai résolu le problème, la page admin ne se
 
 En fait, cette implémentation pose un gros problème : elle repose entièrement sur la bonne volonté de l'utilisateur à utiliser les fonctions dans le bon ordre. Effectivement, rien ne m'empêche d'écrire
 
-```ocaml=
+```ocaml
 
 let main () =
  (*J'ai un contexte avec un utilisateur non administrateur*)
@@ -80,7 +80,7 @@ let main () =
 ```
 Oui, qu'est-ce qui m'oblige à utiliser `admin_page` ? Rien du tout. Il n'y a aucune correspondance entre l'information contenue dans notre contexte et l'utilisation de la fonction `render_admin_page`. Vous pourriez me dire : "Ok, eh bien pour faire correspondre les deux, on pourrait rajouter un if dans la fonction de rendu, et demander un contexte ou un utilisateur en paramètre !"
 
-```ocaml=
+```ocaml
 
 let render_admin_page user =
   if user.is_admin then
@@ -95,7 +95,7 @@ Oui, mais cette vérification additionnelle serait faite au.. **RUNTIME** [TINTI
 
 Et je pourrais donc écrire un programme valide qui viole notre objectif initial.
 
-```ocaml=
+```ocaml
 
 let main () =
  (*J'ai un contexte avec un utilisateur non administrateur*)
@@ -128,7 +128,7 @@ type admin = Admin of user (* un admin est un utilisateur *)
 
 Ensuite, on veut contraindre la creation d'un admin, la seule façon de faire seras de passer par une fonction `as_admin`, et notre fonction `render_admin_page` n'attendras désormais plus un utilisateur en parametre, mais directement un administrateur, voici le type de ces fonctions.
 
-```ocaml=
+```ocaml
 (*
     Le type "t option" nous permet de représenter un calcul qui peut, ou non, renvoyer une    valeur de type t.
 
@@ -146,7 +146,7 @@ Ok, il semble qu'on ait rempli en partie le contrat : la fonction render_admin_p
 
 Cela dit, la bonne utilisation de notre API dépend toujours du bon vouloir de l'utilisateur, actuellement rien ne l'empêche de créer une valeur de type admin à la volée : 
 
-```ocaml=
+```ocaml
 let main =
     (* Oui la valeur est meme incohérente, 
        is_admin étant egal a false, rien nous en empeche :(
@@ -174,7 +174,7 @@ end
 
 Bon, après tout ce travail, voici à quoi ressemble l’implémentation complete :
 
-```ocaml=
+```ocaml
 module Admin : sig
   type t = private Admin of user
   val from_user : user -> t option
