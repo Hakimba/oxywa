@@ -47,28 +47,12 @@
     <div class="column is-four-fifths">
         <a href="../index.html">Back to index</a>
         <h2>Design pattern typés - partie 1</h2>
-        <ul>
-<li><a href="##Introduction">Introduction</a>
-</li>
-<li><a href="##Cas-1-:-Witnessing">Witnessing</a>
-<ul>
-<li><a href="###Pr%C3%A9sentation-du-probl%C3%A8me-et-solution-naive">Présentation du problème et solution naivee</a>
-</li>
-<li><a href="###Construction-d'une-solution-satisfaisante">Construction d'une solution satisfaisante</a>
-</li>
-<li><a href="###Impl%C3%A9mentation-compl%C3%A8te">Implémentation complète</a>
-</li>
-</ul>
-</li>
-<li><a href="##conclusion">Conclusion</a>
-</li>
-</ul>
-<h2 id="introduction">Introduction</h2>
+        <h2 id="introduction">Introduction</h2>
 <p>Il est, depuis un certain temps, obligatoire pour tout programmeur objet qui se respecte et qui écrit des programmes suffisamment longs de s’intéresser aux design patterns (ou motifs de conception). Il en existe une belle liste maintenant bien éprouvée et ils sont assez largement documentés sur internet, dans des livres… Mais qu’en est-il pour la programmation fonctionnelle statiquement typée ?</p>
 <p>C’est une question que je me suis posée récemment, et aujourd’hui encore il n'existe à ma connaissance aucun équivalent du GOF, qui exposerait un ensemble de motifs de conception adressant plusieurs classes de problèmes en tirant parti à la fois des idiomes fonctionnels, mais également d’un système de types riche.</p>
 <p>Dans ce contexte, j’ai apprécié la lecture du papier <a href="https://arxiv.org/pdf/2307.07069.pdf">Typed design pattern for functional era</a> qui tente d'aborder une partie du sujet en présentant 4 problèmes plus ou moins généraux, et 4 solutions plus ou moins générales qui reposent sur l'encodage de garanties statiques via le systeme de type de Rust.</p>
-<p><strong>Seul problème</strong> : c’est écrit en <img src="../images/kris-slash.gif" alt="rust c nul" /><strong>RUST</strong></p>
-<p>Ne connaissant pas Rust, j'ai parfois eu beaucoup de mal à lire les implémentations. J'ai ensuite eu la forte intuition que ce serait plus lisible si c'était écrit dans un langage tout à fait sympathique que j'ai découvert récemment : <img src="../images/kris-heart.gif" alt="ocaml c bien" /><strong><a href="https://ocaml.org/">OCaml</a></strong></p>
+<p><strong>Seul problème</strong> : c’est écrit en <strong>RUST</strong></p>
+<p>Ne connaissant pas Rust, j'ai parfois eu beaucoup de mal à lire les implémentations. J'ai ensuite eu la forte intuition que ce serait plus lisible si c'était écrit dans un langage tout à fait sympathique que j'ai découvert récemment : <strong><a href="https://ocaml.org/">OCaml</a></strong></p>
 <p>Je vous propose ici une série d'articles sur la traduction des exemples/problématiques du papier en OCaml. J'ai fait de mon mieux pour que lire le papier d'origine ne soit pas un prérequis pour comprendre ce que j'ai écrit. Il y a en tout 4 design patterns, et cette première salve d'articles traitera des 3 premiers. <em>(parce que j'ai toujours pas réussi a faire le dernier...)</em></p>
 <ol>
 <li><strong>Conditionner l'accès à une donnée par un témoin</strong>.
@@ -228,7 +212,7 @@ let main () =
 <h2 id="conclusion">Conclusion</h2>
 <p><strong>BON</strong>, J'espère que cette première partie a été relativement facile à aborder et digeste pour vous. J'espère surtout qu'elle introduit correctement la colonne vertébrale de cette série d'articles, à savoir la force de modélisation que représentent les types en programmation, et la supériorité tout à fait objective de l'encodage de garanties statiques via ces types, pour forcer l'utilisateur de notre librairie à correctement l'utiliser s'il veut voir son programme compiler.</p>
 <p>La deuxième partie se concentrera sur l'encodage d'une machine à état sûre. Je vais introduire de nouvelles constructions d'OCaml venant témoigner petit à petit de la richesse de son système de type et de comment cela peut nous aider à atteindre des niveaux de sécurité satisfaisants sur des programmes bien plus compliqués que ce que nous avons fait là.</p>
-<p>N'hésitez pas à me faire des retours et à me poser des questions via le canal de communication sur lequel on a l'habitude de parler, et si on ne se connaît pas (ce qui est très peu probable), voici mon Twitter :</p>
+<p>N'hésitez pas à me faire des retours et à me poser des questions via le canal de communication sur lequel vous pouvez me joindre.</p>
 
     </div>
     <div class="column"></div>
