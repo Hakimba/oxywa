@@ -51,8 +51,8 @@
 <p>Il est, depuis un certain temps, obligatoire pour tout programmeur objet qui se respecte et qui écrit des programmes suffisamment longs de s’intéresser aux design patterns (ou motifs de conception). Il en existe une belle liste maintenant bien éprouvée et ils sont assez largement documentés sur internet, dans des livres… Mais qu’en est-il pour la programmation fonctionnelle statiquement typée ?</p>
 <p>C’est une question que je me suis posée récemment, et aujourd’hui encore il n'existe à ma connaissance aucun équivalent du GOF, qui exposerait un ensemble de motifs de conception adressant plusieurs classes de problèmes en tirant parti à la fois des idiomes fonctionnels, mais également d’un système de types riche.</p>
 <p>Dans ce contexte, j’ai apprécié la lecture du papier <a href="https://arxiv.org/pdf/2307.07069.pdf">Typed design pattern for functional era</a> qui tente d'aborder une partie du sujet en présentant 4 problèmes plus ou moins généraux, et 4 solutions plus ou moins générales qui reposent sur l'encodage de garanties statiques via le systeme de type de Rust.</p>
-<p><strong>Seul problème</strong> : c’est écrit en <strong>RUST</strong></p>
-<p>Ne connaissant pas Rust, j'ai parfois eu beaucoup de mal à lire les implémentations. J'ai ensuite eu la forte intuition que ce serait plus lisible si c'était écrit dans un langage tout à fait sympathique que j'ai découvert récemment : <strong><a href="https://ocaml.org/">OCaml</a></strong></p>
+<p><strong>Seul problème</strong> : c’est écrit en <img src="../images/krisslash.gif" alt="" /> <strong>RUST</strong></p>
+<p>Ne connaissant pas Rust, j'ai parfois eu beaucoup de mal à lire les implémentations. J'ai ensuite eu la forte intuition que ce serait plus lisible si c'était écrit dans un langage tout à fait sympathique que j'ai découvert récemment : <img src="../images/krisheart.gif" alt="" /> <strong><a href="https://ocaml.org/">OCaml</a></strong></p>
 <p>Je vous propose ici une série d'articles sur la traduction des exemples/problématiques du papier en OCaml. J'ai fait de mon mieux pour que lire le papier d'origine ne soit pas un prérequis pour comprendre ce que j'ai écrit. Il y a en tout 4 design patterns, et cette première salve d'articles traitera des 3 premiers. <em>(parce que j'ai toujours pas réussi a faire le dernier...)</em></p>
 <ol>
 <li><strong>Conditionner l'accès à une donnée par un témoin</strong>.
@@ -71,7 +71,7 @@
 <p>OK. Le premier cas est moralement quelque chose d’omniprésent dans la vie d’un développeur. On a des données, et on aimerait conditionner l’accès à un sous-ensemble de ces données. Le cas concret choisi dans l’article d'origine est l’accès à une page administrateur sur un site web.</p>
 <p>La donnée à laquelle on aimerait accéder, c'est la page, et la condition, c’est « être un administrateur ».</p>
 <p>Imaginons que le contexte de notre site web soit encodé de cette manière :</p>
-<pre><code class="language-ocaml=">type user = {name : string; is_admin : bool}
+<pre><code class="language-ocaml">type user = {name : string; is_admin : bool}
 type context = {current_user: user}
 exception Render404
 
@@ -83,7 +83,7 @@ let render_admin_page () =
 
 </code></pre>
 <p>J’imagine que tout de suite un réflexe serait d’écrire :</p>
-<pre><code class="language-ocaml=">let admin_page context =
+<pre><code class="language-ocaml">let admin_page context =
   if context.current_user.is_admin then
     render_admin_page ()
   else
@@ -91,7 +91,7 @@ let render_admin_page () =
 </code></pre>
 <p>Là, vous pourriez penser : &quot;Yes, j'ai résolu le problème, la page admin ne sera affichée que si l'utilisateur est un admin. Que pourrait-il arriver de mal ?&quot;.</p>
 <p>En fait, cette implémentation pose un gros problème : elle repose entièrement sur la bonne volonté de l'utilisateur à utiliser les fonctions dans le bon ordre. Effectivement, rien ne m'empêche d'écrire</p>
-<pre><code class="language-ocaml=">
+<pre><code class="language-ocaml">
 let main () =
  (*J'ai un contexte avec un utilisateur non administrateur*)
  let user = {name=&quot;gholad&quot;;is_admin=false}
@@ -101,7 +101,7 @@ let main () =
 
 </code></pre>
 <p>Oui, qu'est-ce qui m'oblige à utiliser <code>admin_page</code> ? Rien du tout. Il n'y a aucune correspondance entre l'information contenue dans notre contexte et l'utilisation de la fonction <code>render_admin_page</code>. Vous pourriez me dire : &quot;Ok, eh bien pour faire correspondre les deux, on pourrait rajouter un if dans la fonction de rendu, et demander un contexte ou un utilisateur en paramètre !&quot;</p>
-<pre><code class="language-ocaml=">
+<pre><code class="language-ocaml">
 let render_admin_page user =
   if user.is_admin then
     let open Tyxml.Html in
@@ -113,7 +113,7 @@ let render_admin_page user =
 </code></pre>
 <p>Oui, mais cette vérification additionnelle serait faite au.. <strong>RUNTIME</strong> <a href="https://www.youtube.com/watch?v=9d_kO4cyHfk">TINTINNNTINNNNNN</a> (en gros, a l'éxécution du programme).</p>
 <p>Et je pourrais donc écrire un programme valide qui viole notre objectif initial.</p>
-<pre><code class="language-ocaml=">
+<pre><code class="language-ocaml">
 let main () =
  (*J'ai un contexte avec un utilisateur non administrateur*)
  let user = {name=&quot;gholad&quot;;is_admin=false}
@@ -139,7 +139,7 @@ type admin = Admin of user (* un admin est un utilisateur *)
 
 </code></pre>
 <p>Ensuite, on veut contraindre la creation d'un admin, la seule façon de faire seras de passer par une fonction <code>as_admin</code>, et notre fonction <code>render_admin_page</code> n'attendras désormais plus un utilisateur en parametre, mais directement un administrateur, voici le type de ces fonctions.</p>
-<pre><code class="language-ocaml=">(*
+<pre><code class="language-ocaml">(*
     Le type &quot;t option&quot; nous permet de représenter un calcul qui peut, ou non, renvoyer une    valeur de type t.
 
 *)
@@ -153,7 +153,7 @@ let render_admin_page (Admin {name;_}) : html_document =
 </code></pre>
 <p>Ok, il semble qu'on ait rempli en partie le contrat : la fonction render_admin_page ne peut être appelée qu'avec une valeur de type administrateur, et on crée une valeur de type administrateur uniquement dans la fonction as_admin.</p>
 <p>Cela dit, la bonne utilisation de notre API dépend toujours du bon vouloir de l'utilisateur, actuellement rien ne l'empêche de créer une valeur de type admin à la volée :</p>
-<pre><code class="language-ocaml=">let main =
+<pre><code class="language-ocaml">let main =
     (* Oui la valeur est meme incohérente, 
        is_admin étant egal a false, rien nous en empeche :(
     *)
@@ -173,7 +173,7 @@ end
 </code></pre>
 <h3 id="implémentation-complète">Implémentation complète</h3>
 <p>Bon, après tout ce travail, voici à quoi ressemble l’implémentation complete :</p>
-<pre><code class="language-ocaml=">module Admin : sig
+<pre><code class="language-ocaml">module Admin : sig
   type t = private Admin of user
   val from_user : user -&gt; t option
 end = struct
@@ -212,7 +212,7 @@ let main () =
 <h2 id="conclusion">Conclusion</h2>
 <p><strong>BON</strong>, J'espère que cette première partie a été relativement facile à aborder et digeste pour vous. J'espère surtout qu'elle introduit correctement la colonne vertébrale de cette série d'articles, à savoir la force de modélisation que représentent les types en programmation, et la supériorité tout à fait objective de l'encodage de garanties statiques via ces types, pour forcer l'utilisateur de notre librairie à correctement l'utiliser s'il veut voir son programme compiler.</p>
 <p>La deuxième partie se concentrera sur l'encodage d'une machine à état sûre. Je vais introduire de nouvelles constructions d'OCaml venant témoigner petit à petit de la richesse de son système de type et de comment cela peut nous aider à atteindre des niveaux de sécurité satisfaisants sur des programmes bien plus compliqués que ce que nous avons fait là.</p>
-<p>N'hésitez pas à me faire des retours et à me poser des questions via le canal de communication sur lequel on a l'habitude de parler, et si on ne se connaît pas (ce qui est très peu probable), voici mon Twitter :</p>
+<p>N'hésitez pas à me faire des retours et à me poser des questions via le canal de communication sur lequel vous pouvez me joindre.</p>
 
     </div>
     <div class="column"></div>
