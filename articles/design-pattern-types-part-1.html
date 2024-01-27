@@ -5,19 +5,183 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <style type="text/css" media="screen">
-      body {
-        display: flex;
-        min-height: 100vh;
-        flex-direction: column;
+      /* Stolen from xvw.github.io */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
       }
- 
+      /* It is so obvious that it is surprising that it is not the default
+        behaviour! */
+
+      body {
+        margin: 32px auto;
+        padding: 16px;
+        max-width: 1300px;
+        background-color: #fff;
+        color: #444444;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.2;
+      }
+
+      header {
+        margin-bottom: 32px;
+      }
+
+      header h1 {
+        margin: 0;
+        font-weight: 900;
+      }
+
+      header h1::before,
+      header h1::after {
+        color: #a3a1a8;
+        font-weight: 100;
+      }
+
+      header h1::before {
+        content: "<h1>";
+      }
+      header h1::after {
+        content: "</h1>";
+      }
+
+      header blockquote {
+        padding: 0;
+        margin: 0;
+      }
+
+      hr {
+        width: 0%;
+        min-width: 20%;
+        max-width: 100%;
+        margin: 0 auto;
+        border: none;
+        border-bottom: 1px solid #666;
+        position: relative;
+        transition: box-shadow 200ms ease-in-out;
+        box-shadow: 0px 0px 0px 0px #f9f9f9;
+      }
+
       main {
-        flex: 1;
+        margin: 42px 0px;
+        line-height: 1.6;
       }
 
       .block {
         padding-top:30px;
         padding-left: 50px;
+      }
+
+      footer {
+        padding-top: 32px;
+      }
+
+      article h1 {
+        font-size: 1.8em;
+        margin: 20px 0;
+      }
+
+      article h2 {
+        font-size: 1.6em;
+        margin-top: 8px;
+      }
+
+      article h3 {
+        font-size: 1.4em;
+        margin-top: 4px; 
+      }
+
+      article h4 {
+        font-size: 1.2em;
+        margin-top: 2px;
+      }
+
+      article blockquote h4 {
+        margin-top: 34px;
+        margin-bottom: -16px;
+      }
+
+      article pre {
+        margin: 16px 8px;
+        padding: 8px;
+        font-family: 'Courier new', monospace;
+        font-size: 1.2em;
+        line-height: 100%;
+        width: 100%;
+        overflow-x: auto;
+        background-color: #000;
+      }
+
+      article img {
+        display: block;
+        margin: 32px auto;
+        max-width: 100%;
+      }
+
+      .hljs-built_in {
+        text-decoration: none;
+      }
+
+      .hljs-doctag,
+      .hljs-formula,
+      .hljs-symbol,
+      .hljs-string {
+        background: none;
+        color: #666;
+      }
+
+      article pre code {
+        font-size: 0.8em;
+      }
+
+      article code {
+        font-family: 'Courier new', monospace;
+        font-size: 0.8em;
+      }
+
+
+      .valid {
+        display: inline-block;
+        margin: 20px 0;
+        border: 2px solid #444444;
+        color: #444444;
+        font-weight: 900;
+        font-size: 0.8em;
+        text-decoration: none;
+        text-transform: uppercase;
+        padding: 4px 4px 4px 1.5em;
+        position: relative;
+      }
+
+      .valid::before {
+        content: "";
+        position: absolute;
+        border-color: #009933;
+        border-style: solid;
+        border-width: 0 0.3em 0.25em 0;
+        height: 1em;
+        top: 1.3em;
+        left: 0.6em;
+        margin-top: -1em;
+        transform: rotate(58deg);
+        width: 0.5em;
+      }
+
+      .small-button {
+        display: inline-block;
+        margin: 4px 0;
+        font-weight: 900;
+        font-size: 0.7em;
+        text-decoration: none;
+        text-transform: uppercase;
+        padding: 2px 4px;
+        position: relative;
       }
     </style>
 </head>
@@ -46,13 +210,13 @@
     <div class="column"></div>
     <div class="column is-four-fifths">
         <a href="../index.html">Back to index</a>
-        <h2>Pattern d&apos;encodage de garanties statique - Partie 1</h2>
+        <h2>Design pattern typés pour la programmation fonctionnelle - Partie 1</h2>
         <h2 id="introduction">Introduction</h2>
 <p>Il est, depuis un certain temps, obligatoire pour tout programmeur objet qui se respecte et qui écrit des programmes suffisamment longs de s’intéresser aux design patterns (ou motifs de conception). Il en existe une belle liste maintenant bien éprouvée et ils sont assez largement documentés sur internet, dans des livres… Mais qu’en est-il pour la programmation fonctionnelle statiquement typée ?</p>
 <p>C’est une question que je me suis posée récemment, et aujourd’hui encore il n'existe à ma connaissance aucun équivalent du GOF, qui exposerait un ensemble de motifs de conception adressant plusieurs classes de problèmes en tirant parti à la fois des idiomes fonctionnels, mais également d’un système de types riche.</p>
 <p>Dans ce contexte, j’ai apprécié la lecture du papier <a href="https://arxiv.org/pdf/2307.07069.pdf">Typed design pattern for functional era</a> qui tente d'aborder une partie du sujet en présentant 4 problèmes plus ou moins généraux, et 4 solutions plus ou moins générales qui reposent sur l'encodage de garanties statiques via le systeme de type de Rust.</p>
-<p><strong>Seul problème</strong> : c’est écrit en <img src="../images/krisslash.gif" alt="" /> <strong>RUST</strong></p>
-<p>Ne connaissant pas Rust, j'ai parfois eu beaucoup de mal à lire les implémentations. J'ai ensuite eu la forte intuition que ce serait plus lisible si c'était écrit dans un langage tout à fait sympathique que j'ai découvert récemment : <img src="../images/krisheart.gif" alt="" /> <strong><a href="https://ocaml.org/">OCaml</a></strong></p>
+<p><strong>Seul problème</strong> : c’est écrit en <img src="../images/dcrrcko-916b845a-af32-42d7-a3dc-d6fac7493115%20(2)%20(1)%20(1).gif" alt="" /> <strong>RUST</strong></p>
+<p>Ne connaissant pas Rust, j'ai parfois eu beaucoup de mal à lire les implémentations. J'ai ensuite eu la forte intuition que ce serait plus lisible si c'était écrit dans un langage tout à fait sympathique que j'ai découvert récemment : <img src="../images/kris-heart%20(1).gif" alt="" /> <strong><a href="https://ocaml.org/">OCaml</a></strong></p>
 <p>Je vous propose ici une série d'articles sur la traduction des exemples/problématiques du papier en OCaml. J'ai fait de mon mieux pour que lire le papier d'origine ne soit pas un prérequis pour comprendre ce que j'ai écrit. Il y a en tout 4 design patterns, et cette première salve d'articles traitera des 3 premiers. <em>(parce que j'ai toujours pas réussi a faire le dernier...)</em></p>
 <ol>
 <li><strong>Conditionner l'accès à une donnée par un témoin</strong>.
@@ -62,7 +226,7 @@
 <li><strong>Un formatteur de chaîne de caractère</strong>.
 </li>
 </ol>
-<p>Voici comment ça va se passer : pour chaque cas, je vais d’abord expliquer le problème concret que l’on essaie de résoudre et en montrer une implémentation naïve. Puis, on va se poser et dresser la liste des manipulations de ce code qu'on veut absolument rendre illicites statiquement <em>(C’est tout l’intérêt du papier)</em>, et puis on déroulera un code satisfaisant au regard de cette liste.</p>
+<p>Voila comment ça va se passer : pour chaque cas, je vais d’abord expliquer le problème concret que l’on essaie de résoudre et en montrer une implémentation naïve. Puis, on va se poser et dresser la liste des manipulations de ce code qu'on veut absolument rendre illicites statiquement <em>(C’est tout l’intérêt du papier)</em>, et puis on déroulera un code satisfaisant au regard de cette liste.</p>
 <p>Ok, <strong>commençons !</strong></p>
 <h2 id="cas-1-witnessing">Cas 1 : Witnessing</h2>
 <p>Une chose importante avant de commencer : je vais parfois parler d'un &quot;utilisateur&quot; dans cette partie. Étant donné qu'on va utiliser un programme web pour illustrer ce premier cas, il faut avoir en tête que je parle d'utilisateur développeur, donc d'un développeur qui va utiliser notre API, notre code, et non d'un utilisateur final qui va naviguer sur un logiciel ou utiliser l'API web hypothétique.</p>
@@ -111,7 +275,7 @@ let render_admin_page user =
     raise Render404
 
 </code></pre>
-<p>Oui, mais cette vérification additionnelle serait faite au.. <strong>RUNTIME</strong> <a href="https://www.youtube.com/watch?v=9d_kO4cyHfk">TINTINNNTINNNNNN</a> (en gros, a l'éxécution du programme).</p>
+<p>Oui, mais cette vérification additionnelle serait faite au.. <a href="https://www.youtube.com/watch?v=9d_kO4cyHfk"><strong>RUNTIME</strong></a> (en gros, a l'éxécution du programme).</p>
 <p>Et je pourrais donc écrire un programme valide qui viole notre objectif initial.</p>
 <pre><code class="language-ocaml">
 let main () =
@@ -127,7 +291,7 @@ let main () =
 <h3 id="construction-dune-solution-satisfaisante">Construction d'une solution satisfaisante</h3>
 <p>Repartons du bon pied, et commençons par dresser la liste des garanties statiques que nous aimerions encoder :</p>
 <ul>
-<li>La fonction render_admin_page dois afficher la page que si c'est un admin qui le demande.
+<li>La fonction <code>render_admin_page</code> dois afficher la page que si c'est un admin qui le demande.
 </li>
 <li>Le statut d'administrateur ne peut pas etre crée a la volée, c'est une information qu'on peut récuperer sur un utilisateur.
 </li>
@@ -140,8 +304,7 @@ type admin = Admin of user (* un admin est un utilisateur *)
 </code></pre>
 <p>Ensuite, on veut contraindre la creation d'un admin, la seule façon de faire seras de passer par une fonction <code>as_admin</code>, et notre fonction <code>render_admin_page</code> n'attendras désormais plus un utilisateur en parametre, mais directement un administrateur, voici le type de ces fonctions.</p>
 <pre><code class="language-ocaml">(*
-    Le type &quot;t option&quot; nous permet de représenter un calcul qui peut, ou non, renvoyer une    valeur de type t.
-
+    Le type &quot;t option&quot; nous permet de représenter un calcul qui peut, ou non, renvoyer une valeur de type t.
 *)
 let as_admin (u : user) : admin option =
     if u.is_admin then Some (Admin u) else None
@@ -151,7 +314,7 @@ let render_admin_page (Admin {name;_}) : html_document =
   div [
     h1 [ txt (&quot;Hello dear Administrator, &quot; ^ name) ] ]
 </code></pre>
-<p>Ok, il semble qu'on ait rempli en partie le contrat : la fonction render_admin_page ne peut être appelée qu'avec une valeur de type administrateur, et on crée une valeur de type administrateur uniquement dans la fonction as_admin.</p>
+<p>Ok, il semble qu'on ait rempli en partie le contrat : la fonction <code>render_admin_page</code> ne peut être appelée qu'avec une valeur de type administrateur, et on crée une valeur de type administrateur uniquement dans la fonction <code>as_admin</code>.</p>
 <p>Cela dit, la bonne utilisation de notre API dépend toujours du bon vouloir de l'utilisateur, actuellement rien ne l'empêche de créer une valeur de type admin à la volée :</p>
 <pre><code class="language-ocaml">let main =
     (* Oui la valeur est meme incohérente, 
@@ -159,8 +322,8 @@ let render_admin_page (Admin {name;_}) : html_document =
     *)
     render_admin_page (Admin({name=&quot;leak&quot;,is_admin=false}))
 </code></pre>
-<p>Donc, pour rendre un admin uniquement constructible depuis la fonction as_admin, on doit également le rendre impossible à construire à la volée par l'utilisateur, et pour ça, on va introduire une fonctionnalité centrale du langage OCaml : <strong>les modules</strong>.</p>
-<p>Les modules permettent d'introduire la notion d'encapsulation <em>(bien connue des programmeurs objet)</em>. On va cacher la définition du type admin et ranger notre fonction de création d'admin à l'intérieur, et via cette encapsulation, on va pouvoir rendre la création de valeurs de type admin uniquement possible à l'intérieur de ce module <em>(c'est pour ça qu'on met la fonction <code>as_admin</code> dedans)</em>, via le mot clé private <em>(également très connu des programmeurs objets ;) )</em>.</p>
+<p>Donc, pour rendre un admin uniquement constructible depuis la fonction <code>as_admin</code>, on doit également le rendre impossible à construire à la volée par l'utilisateur, et pour ça, on va introduire une fonctionnalité centrale du langage OCaml : <strong>les modules</strong>.</p>
+<p>Les modules permettent d'introduire la notion d'encapsulation <em>(bien connue des programmeurs objet)</em>. On va cacher la définition du type admin et ranger notre fonction de création d'admin à l'intérieur, et via cette encapsulation, on va pouvoir rendre la création de valeurs de type admin uniquement possible à l'intérieur de ce module <em>(c'est pour ça qu'on met la fonction <code>as_admin</code> dedans)</em>, via le mot clé <strong>private</strong> <em>(également très connu des programmeurs objets ;) )</em>.</p>
 <pre><code class="language-ocaml">module Admin : sig
   type t = private Admin of user
   val from_user : user -&gt; t option

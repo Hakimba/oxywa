@@ -5,19 +5,183 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <style type="text/css" media="screen">
-      body {
-        display: flex;
-        min-height: 100vh;
-        flex-direction: column;
+      /* Stolen from xvw.github.io */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
       }
- 
+      /* It is so obvious that it is surprising that it is not the default
+        behaviour! */
+
+      body {
+        margin: 32px auto;
+        padding: 16px;
+        max-width: 1300px;
+        background-color: #fff;
+        color: #444444;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.2;
+      }
+
+      header {
+        margin-bottom: 32px;
+      }
+
+      header h1 {
+        margin: 0;
+        font-weight: 900;
+      }
+
+      header h1::before,
+      header h1::after {
+        color: #a3a1a8;
+        font-weight: 100;
+      }
+
+      header h1::before {
+        content: "<h1>";
+      }
+      header h1::after {
+        content: "</h1>";
+      }
+
+      header blockquote {
+        padding: 0;
+        margin: 0;
+      }
+
+      hr {
+        width: 0%;
+        min-width: 20%;
+        max-width: 100%;
+        margin: 0 auto;
+        border: none;
+        border-bottom: 1px solid #666;
+        position: relative;
+        transition: box-shadow 200ms ease-in-out;
+        box-shadow: 0px 0px 0px 0px #f9f9f9;
+      }
+
       main {
-        flex: 1;
+        margin: 42px 0px;
+        line-height: 1.6;
       }
 
       .block {
         padding-top:30px;
         padding-left: 50px;
+      }
+
+      footer {
+        padding-top: 32px;
+      }
+
+      article h1 {
+        font-size: 1.8em;
+        margin: 20px 0;
+      }
+
+      article h2 {
+        font-size: 1.6em;
+        margin-top: 8px;
+      }
+
+      article h3 {
+        font-size: 1.4em;
+        margin-top: 4px; 
+      }
+
+      article h4 {
+        font-size: 1.2em;
+        margin-top: 2px;
+      }
+
+      article blockquote h4 {
+        margin-top: 34px;
+        margin-bottom: -16px;
+      }
+
+      article pre {
+        margin: 16px 8px;
+        padding: 8px;
+        font-family: 'Courier new', monospace;
+        font-size: 1.2em;
+        line-height: 100%;
+        width: 100%;
+        overflow-x: auto;
+        background-color: #000;
+      }
+
+      article img {
+        display: block;
+        margin: 32px auto;
+        max-width: 100%;
+      }
+
+      .hljs-built_in {
+        text-decoration: none;
+      }
+
+      .hljs-doctag,
+      .hljs-formula,
+      .hljs-symbol,
+      .hljs-string {
+        background: none;
+        color: #666;
+      }
+
+      article pre code {
+        font-size: 0.8em;
+      }
+
+      article code {
+        font-family: 'Courier new', monospace;
+        font-size: 0.8em;
+      }
+
+
+      .valid {
+        display: inline-block;
+        margin: 20px 0;
+        border: 2px solid #444444;
+        color: #444444;
+        font-weight: 900;
+        font-size: 0.8em;
+        text-decoration: none;
+        text-transform: uppercase;
+        padding: 4px 4px 4px 1.5em;
+        position: relative;
+      }
+
+      .valid::before {
+        content: "";
+        position: absolute;
+        border-color: #009933;
+        border-style: solid;
+        border-width: 0 0.3em 0.25em 0;
+        height: 1em;
+        top: 1.3em;
+        left: 0.6em;
+        margin-top: -1em;
+        transform: rotate(58deg);
+        width: 0.5em;
+      }
+
+      .small-button {
+        display: inline-block;
+        margin: 4px 0;
+        font-weight: 900;
+        font-size: 0.7em;
+        text-decoration: none;
+        text-transform: uppercase;
+        padding: 2px 4px;
+        position: relative;
       }
     </style>
 </head>
@@ -65,10 +229,10 @@ Il nous a ramené nos valises jusque devant notre porte, il nous a installé nos
 <p>Vous en trouverez même dans des temples religieux ! Je vous conseille d'aller vous boire un verre a celui du temple <strong>Haedong Yonggungsa Temple (해동 용궁사(부산))</strong>, vous aurez une superbe vue sur la mer assis sur une chaise.</p>
 <p>Mais je m'égare, dans tout ces coffee shop (tous), vous verrez les boissons séparées en catégorie : café, jus de fruits, thé ... Et une des catégories s'appelle <strong>ade</strong>, un ade c'est une boisson fraîche, gazeuse, et pour le goût vous avez le choix entre plusieurs fruits.</p>
 <p>Et après 1 semaine de vacances à en boire tous les jours, j'ai finis par comprendre que <strong>ade</strong> est une généralisation de la limonade ! En France, a par limonade et orangeade, je n'ai jamais entendu d'autres mots composé d'un fruit et de <strong>ade</strong> etre utilisé.</p>
-<p>Et en fait 100% du temps où je commande une limonade en France a autre chose qu'au citron, je dis <em>&quot;une limonade a/au <strong><fruit></strong>&quot;</em>, et si vous tapez ça sur google vous verrez que c'est commun. <em>(Bon ok, une limonade a la fraise c'est une boisson gazeuse sucré au citron et a la fraise, mais si je veux pas de citron et juste de la fraise ? Personne ne dit ananasade...)</em></p>
+<p>Et en fait 100% du temps où je commande une limonade en France a autre chose qu'au citron, je dis <em>&quot;une limonade a/au <strong><fruit></strong>&quot;</em>, et si vous tapez ça sur google vous verrez que c'est commun. <em>(Bon ok, une limonade a l'ananas c'est une boisson gazeuse sucré au citron et a l'ananas, mais si je veux pas de citron et juste de la fraise ? Personne ne dit ananasade...)</em></p>
 <p>En bref, les coréens eux sont plus malin ! Ade est une catégorie de boisson, et vous choissisez juste le fruit.</p>
 <h3 id="conclusion">Conclusion</h3>
-<p>Voilà, j'espère que cet article vous sera utile quand vous irez en Corée, ou que vous avez appris des trucs, je suis toujours ouvert au débat et reste disponible par mail (felous77@gmail.com) le cas échéant.</p>
+<p>Voilà, j'espère que cet article vous sera utile quand vous irez en Corée, ou que vous avez appris des trucs.</p>
 
     </div>
     <div class="column"></div>
