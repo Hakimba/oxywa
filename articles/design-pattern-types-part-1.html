@@ -330,7 +330,7 @@ let render_admin_page (Admin {name;_}) : html_document =
 end = struct
   type t = Admin of user
   let as_admin user =
-    if is_admin user then Some (Admin user)
+    if user.is_admin then Some (Admin user)
     else None
 end
 </code></pre>
@@ -343,7 +343,7 @@ end
 end = struct
   type t = Admin of user
   let as_admin user =
-    if as_admin user then Some (Admin user)
+    if user.is_admin then Some (Admin user)
     else None
 end
 
@@ -360,7 +360,7 @@ let render_admin_page (Admin.Admin { name ; _}) =
 let admin_page context =
   match Admin.as_admin context.current_user with
   | Some admin_user -&gt;
-    render_admin_panel admin_user
+    render_admin_page admin_user
   | None -&gt;
     raise Render404
 
