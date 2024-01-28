@@ -93,7 +93,7 @@ let render_admin_page user =
 ```
 Oui, mais cette vérification additionnelle serait faite au.. [**RUNTIME**](https://www.youtube.com/watch?v=9d_kO4cyHfk) (en gros, a l'éxécution du programme).
 
-Et je pourrais donc écrire un programme valide (qui compile) mais qui ne nous satisfait pas d'un point de vue modélisation.
+Et je pourrais donc écrire un programme valide (qui compile) mais qui ne nous satisfait pas en terme d'utilisation, pourquoi ? Parce que cette API nous laisse le loisir d'appeler la fonction render_admin_page meme si l'utilisateur n'est pas un admin, et elle va juste planter a l'execution. Bouh. 
 
 ```ocaml
 
@@ -106,7 +106,7 @@ let main () =
 
 ```
 
-Effectivement, je le rappel mais tout l'intérêt du papier d'origine et de cette série d'articles est de vous sensibiliser aux forces du *statique* dans "garanties *statiques*", en opposition à dynamique. On veut que les erreurs de manipulation de notre code soient détectées à la compilation, et que le programme en question soit rejeté. Et le typage est cet outil par lequel on va passer pour exprimer ces garanties statiques, et modéliser notre API de telle sorte qu'elle rende les manipulations problématiques tout simplement infaisables.
+Je le rappel mais  tout l'intérêt du papier d'origine et de cette série d'articles est de vous sensibiliser aux forces du *statique* dans "garanties *statiques*", en opposition à dynamique. On veut que les erreurs de manipulation de notre code soient détectées à la compilation, et que le programme en question soit rejeté. Et le typage est cet outil par lequel on va passer pour exprimer ces garanties statiques, et modéliser notre API de telle sorte qu'elle rende les manipulations problématiques tout simplement infaisables.
 
 Et en cela, notre API guiderait l'utilisateur, par les types, à correctement l'utiliser.
 
@@ -115,7 +115,7 @@ Et en cela, notre API guiderait l'utilisateur, par les types, à correctement l'
 Repartons du bon pied, et commençons par dresser la liste des garanties statiques que nous aimerions encoder :
 
 - La fonction `render_admin_page` dois afficher la page que si c'est un admin qui le demande.
-- Le statut d'administrateur ne peut pas etre crée a la volée, c'est une information qu'on peut récuperer sur un utilisateur.
+- Le statut d'administrateur ne peut pas etre crée a la volée, c'est une information qu'on dois demander et recuperer si l'utilisateur fournis est bien un admin. 
 
 À partir de cette liste, et en pensant "par les types", on va construire une nouvelle solution. Le premier point important : comme dit dans la liste, on veut contraindre la création et la manipulation de valeur "administrateur", donc pour commencer, on va distinguer les utilisateurs réguliers des administrateurs en rajoutant un type pour l'admin.
 
@@ -147,10 +147,9 @@ Cela dit, la bonne utilisation de notre API dépend toujours du bon vouloir de l
 
 ```ocaml
 let main =
-    (* Oui la valeur est meme incohérente, 
-       is_admin étant egal a false, rien nous en empeche :(
+    (* c'est de la triche, on hack le systeme ! 
     *)
-    render_admin_page (Admin({name="leak",is_admin=false}))
+    render_admin_page (Admin({name="leak",is_admin=peu importe}))
 ```
 
 Donc, pour rendre un admin uniquement constructible depuis la fonction `as_admin`, on doit également le rendre impossible à construire à l'exterieur d'un certain scope, et pour ça, on va introduire une fonctionnalité centrale du langage OCaml : **les modules**.
@@ -211,14 +210,14 @@ let main () =
 
 ```
 
-C'est gagné ! On a rempli notre contrat. L’utilisateur de notre API est guidé, par les types, à l'utilisation correcte de notre API. La valeur `Admin user`, qui nous permet de lancer la fonction `render_admin_page`, est un témoin qu'on est effectivement passé par la fonction `as_admin`, et qu'on ne fait rien d'illégal au regard de notre objectif *(contraindre la page admin aux admins)*.
+C'est gagné ! On a rempli notre contrat. L’utilisateur de notre API est guidé, par les types, à l'utilisation correcte de notre API. La valeur `Admin user`, qui nous permet de lancer la fonction `render_admin_page`, est un **témoin** qu'on est passé par la fonction `as_admin` *(aka la seule façon de creer une valeur de type admin)*, et qu'on ne recevras de valeur admin que si l'utilisateur fournis est effectivement un admin ! Donc qu'on ne fait rien d'illégal au regard de notre objectif *(contraindre la page admin aux admins... ça fait beaucoup de fois "admin"... admin.) *.
 
-Pour aller au bout des choses, on devrait également contraindre la création de valeur de type user, pour éviter qu'on puisse appeler `as_admin` en changeant la valeur `is_admin`` à la volée de l'utilisateur qu'on manipule. Mais cette manipulation semble assez peu réaliste *(à moins que l'utilisateur veuille explicitement casser notre système)*.
+Pour aller au bout des choses, on devrait également contraindre la création de valeur de type user, pour éviter qu'on puisse appeler `as_admin` en changeant la valeur `is_admin` à la volée de l'utilisateur qu'on manipule. Mais cette manipulation semble assez peu réaliste *(à moins que l'utilisateur veuille explicitement casser notre système)*.
 
 ## Conclusion
 
-**BON**, je que cette première partie a été relativement facile à aborder et digeste pour vous, je pense meme que certains se dirons *"je peux faire exactement la meme chose avec mon langage objet mainstream, tu nous saoul avec OCaml"*, et vous avez raison, cet exemple n'est pas très intéréssant en vérité. Cependant j'espère surtout que cet article introduit correctement la colonne vertébrale de cette série, à savoir la force de modélisation que représentent les types en programmation, et la supériorité tout à fait objective de l'encodage de garanties statiques via ces types, pour forcer l'utilisateur de notre librairie à correctement l'utiliser s'il veut voir son programme compiler.
+**BON**, je crois que cette première partie est relativement facile à aborder et digeste, je pense meme que certains se dirons *"je peux faire exactement la meme chose avec mon langage objet mainstream, tu nous saoul avec OCaml"*, et vous avez raison, cet exemple n'est pas très intéréssant en vérité. Cependant j'espère surtout que cet article introduit correctement la colonne vertébrale de cette série, à savoir la force de modélisation que représentent les types en programmation, et la supériorité tout à fait objective de l'encodage de garanties statiques via ces types pour forcer l'utilisateur de notre librairie à correctement l'utiliser s'il veut voir son programme compiler.
 
-Et soyez rassuré, les autres parties seront beaucoup plus intéréssante, la prochaine en particulier se concentrera sur l'encodage d'une machine à état sûre. Tout au long de cette série je vais introduire de nouvelles constructions d'OCaml venant témoigner petit à petit de la richesse toute particulière de son système de type et de comment cela peut nous aider à atteindre des niveaux de sécurité satisfaisants sur des programmes bien plus compliqués que ce que nous avons fait là.
+Soyez rassuré, les autres parties seront beaucoup plus intéréssante, la prochaine en particulier se concentrera sur l'encodage d'une machine à état sûre. Tout au long de cette série je vais introduire de nouvelles constructions d'OCaml venant témoigner petit à petit de la richesse toute particulière de son système de type et de comment cela peut nous aider à atteindre des niveaux de sécurité satisfaisants sur des programmes bien plus compliqués que ce que nous avons fait là.
 
 N'hésitez pas à me faire des retours et à me poser des questions via le canal de communication sur lequel vous pouvez me joindre.
