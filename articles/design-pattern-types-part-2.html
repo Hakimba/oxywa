@@ -3,186 +3,17 @@
     <meta charset="utf-8">
     <title>Oxywa</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link type="text/css" rel="stylesheet" href="../">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <style type="text/css" media="screen">
-      /* Stolen from xvw.github.io */
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-      }
-      /* It is so obvious that it is surprising that it is not the default
-        behaviour! */
-
-      body {
-        margin: 32px auto;
-        padding: 16px;
-        max-width: 1300px;
-        background-color: #fff;
-        color: #444444;
-        font-family: Georgia, 'Times New Roman', Times, serif;
-      }
-
-      h1,
-      h2,
-      h3 {
-        line-height: 1.2;
-      }
-
-      header {
-        margin-bottom: 32px;
-      }
-
-      header h1 {
-        margin: 0;
-        font-weight: 900;
-      }
-
-      header h1::before,
-      header h1::after {
-        color: #a3a1a8;
-        font-weight: 100;
-      }
-
-      header h1::before {
-        content: "<h1>";
-      }
-      header h1::after {
-        content: "</h1>";
-      }
-
-      header blockquote {
-        padding: 0;
-        margin: 0;
-      }
-
-      hr {
-        width: 0%;
-        min-width: 20%;
-        max-width: 100%;
-        margin: 0 auto;
-        border: none;
-        border-bottom: 1px solid #666;
-        position: relative;
-        transition: box-shadow 200ms ease-in-out;
-        box-shadow: 0px 0px 0px 0px #f9f9f9;
-      }
-
-      main {
-        margin: 42px 0px;
-        line-height: 1.6;
-      }
-
-      .block {
-        padding-top:30px;
-        padding-left: 50px;
-      }
-
-      footer {
-        padding-top: 32px;
-      }
-
-      article h1 {
-        font-size: 1.8em;
-        margin: 20px 0;
-      }
-
-      article h2 {
-        font-size: 1.6em;
-        margin-top: 8px;
-      }
-
-      article h3 {
-        font-size: 1.4em;
-        margin-top: 4px; 
-      }
-
-      article h4 {
-        font-size: 1.2em;
-        margin-top: 2px;
-      }
-
-      article blockquote h4 {
-        margin-top: 34px;
-        margin-bottom: -16px;
-      }
-
-      article pre {
-        margin: 16px 8px;
-        padding: 8px;
-        font-family: 'Courier new', monospace;
-        font-size: 1.2em;
-        line-height: 100%;
-        width: 100%;
-        overflow-x: auto;
-        background-color: #000;
-      }
-
-      article img {
-        display: block;
-        margin: 32px auto;
-        max-width: 100%;
-      }
-
-      .hljs-built_in {
-        text-decoration: none;
-      }
-
-      .hljs-doctag,
-      .hljs-formula,
-      .hljs-symbol,
-      .hljs-string {
-        background: none;
-        color: #666;
-      }
-
-      article pre code {
-        font-size: 0.8em;
-      }
-
-      article code {
-        font-family: 'Courier new', monospace;
-        font-size: 0.8em;
-      }
-
-
-      .valid {
-        display: inline-block;
-        margin: 20px 0;
-        border: 2px solid #444444;
-        color: #444444;
-        font-weight: 900;
-        font-size: 0.8em;
-        text-decoration: none;
-        text-transform: uppercase;
-        padding: 4px 4px 4px 1.5em;
-        position: relative;
-      }
-
-      .valid::before {
-        content: "";
-        position: absolute;
-        border-color: #009933;
-        border-style: solid;
-        border-width: 0 0.3em 0.25em 0;
-        height: 1em;
-        top: 1.3em;
-        left: 0.6em;
-        margin-top: -1em;
-        transform: rotate(58deg);
-        width: 0.5em;
-      }
-
-      .small-button {
-        display: inline-block;
-        margin: 4px 0;
-        font-weight: 900;
-        font-size: 0.7em;
-        text-decoration: none;
-        text-transform: uppercase;
-        padding: 2px 4px;
-        position: relative;
-      }
+    <link type="text/css" rel="stylesheet" href="../css/hl.css">
+    <link type="text/css" rel="stylesheet" href="../css/style.css">
+    <script src="../js/hl.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            mermaid.initialize({startOnLoad:true});
+        });
+    </script>
     </style>
     <script defer data-domain="hakimba.github.io/oxywa" src="https://plausible.io/js/script.js"></script>
 </head>
@@ -218,23 +49,12 @@
 <h2 id="mini-introduction-parce-que-quand-même">Mini introduction <em>(parce que quand même)</em></h2>
 <p>Cet article est le deuxième d'une série consacrée à la traduction en OCaml du papier <a href="https://arxiv.org/abs/2307.07069">Typed design pattern for functional era</a>. Si ce n'est pas déjà fait, je vous invite à lire <a href="https://hakimba.github.io/oxywa/articles/design-pattern-types-part-1.html">la première partie</a>. Cette fois-ci, nous allons nous intéresser à un problème beaucoup plus intéressant : <strong>l'encodage d'une machine à état &quot;sûre&quot;</strong> !</p>
 <h3 id="cas-2-une-vraie-machine-à-état">Cas 2 : Une vraie machine à état</h3>
-<p>Je vais partir du principe, malheureusement, que vous êtes déjà familiarisé avec le concept de machine à état. Permettez-moi toutefois de le résumer brièvement : les machines à état sont un outil permettant de modéliser le comportement d'un système en utilisant un ensemble d'états et des transitions entre ces états.</p>
+<p>Je vais partir du principe, malheureusement, que vous êtes déjà familiarisé avec le concept de machine à état. Permettez-moi toutefois de le résumer brièvement : <em>les machines à état sont un outil permettant de modéliser le comportement d'un système en utilisant un ensemble d'états et des transitions entre ces états.</em></p>
 <p>Un exemple simple c'est toujours mieux :</p>
-<pre><code class="language-mermaid">stateDiagram
-    Closed --&gt; Opened : Open
-    Opened --&gt; Closed : Close
-
-</code></pre>
+<p><img src="../images/statemachine.png" alt="" /></p>
 <p>Voici une machine à état qui représente une porte et l'utilisation usuelle qu'on peut faire d'une porte : l'ouvrir et la fermer. Nous avons deux états possibles, représentant respectivement la porte fermée et ouverte, ainsi que deux transitions permettant de passer d'un état à l'autre.</p>
 <p>Pour notre petit moment ensemble, nous allons prendre une machine à état un peu plus intéressante qui modélise un ensemble de manipulations possibles sur un fichier en OCaml.</p>
-<pre><code class="language-mermaid">stateDiagram
-    [*] --&gt; Read : open_in
-    Read --&gt; Read : input_line
-    Read --&gt; EOF : input_line
-    EOF --&gt; Closed : close_in
-    Read --&gt; Closed : close_in
-
-</code></pre>
+<p><img src="../images/statemachine2.png" alt="" /></p>
 <p>Cette machine a état nous dit formellement que :</p>
 <ul>
 <li>Je peux lire un fichier ouvert.
@@ -248,7 +68,7 @@
 <li>Je peux fermer un fichier ouvert, qu'il ait déjà été entièrement lu ou qu'il puisse encore être lu.
 </li>
 </ul>
-<p>Elle nous dit également ce que l'on ne peut pas :</p>
+<p>Elle nous dit également ce que l'on ne peut pas faire :</p>
 <ul>
 <li>Fermer un fichier déjà fermé.
 </li>
@@ -257,7 +77,7 @@
 <li>Lire un fichier fermé.
 </li>
 </ul>
-<p>Si vous deviez implémenter cette machine à état, comment le feriez-vous ? Je pense qu'une première version naïve ressemblerait à ceci pour la plupart d'entre nous. <em>(je vais décrire la logique via des commentaires)</em> :</p>
+<p>Si vous deviez implémenter cette machine à état, comment le feriez-vous ? Je pense qu'une première version naïve ressemblerait à ceci pour la plupart d'entre nous. <em>(je vais décrire la sémantique des fonctions via des commentaires)</em> :</p>
 <pre><code class="language-ocaml=">(* Notre fichier peut être dans trois états différents. *)
 type state =
     | Readable (* En mesure d'être lu. *)
@@ -315,7 +135,7 @@ let close_file state = match state with
 <p>On peut introduire la notion de type somme en l'opposant à celle de <strong>type produit</strong>. On avait vu un exemple dans l'article précédent :</p>
 <pre><code class="language-ocaml">type user = {name : string; is_admin : bool}
 </code></pre>
-<p>On peut lire le type user comme : <em>&quot;Une valeur de type <code>user</code> est composée d'un <code>name</code> <strong>et</strong> un <code>is_admin</code>&quot;</em></p>
+<p>On peut lire le type user comme : <em>&quot;Une valeur de type <code>user</code> est composée d'un <code>name</code> <strong>et</strong> d'un <code>is_admin</code>&quot;</em></p>
 <p>Alors que notre type <code>week_day</code> va se lire : <em>&quot;Je peux <strong>construire</strong> 7 valeurs de <strong>type</strong> <code>week_day</code> : Monday, <strong>ou</strong> Tuesday, <strong>ou</strong>...&quot;</em>. Et pour aller plus vite, on dit que Monday, Tuesday, etc. sont des <strong>constructeurs</strong>.</p>
 <p>Et on peut déconstruire ce type en son ensemble de constructeurs via le pattern matching <em>(maintenant présent dans pas mal de langages mainstream)</em> :</p>
 <pre><code class="language-ocaml">let is_week_end day = match day with
@@ -381,7 +201,7 @@ let string_option = Some &quot;test&quot;
    deux autres exemples *)
 let option_option : 'a option option = Some None
 
-(* le type de cette fonction : 'a option-&gt; 'a -&gt; 'a *)
+(* le type de cette fonction : 'a option -&gt; 'a -&gt; 'a *)
 let getOrDefault opt default = match opt with
     | Some v -&gt; v
     | None -&gt; default
@@ -389,7 +209,7 @@ let getOrDefault opt default = match opt with
 </code></pre>
 <p>On peut également avoir un type parametré par plusieurs types, et c'est très utile en fait :</p>
 <pre><code class="language-ocaml=">
-(* Ce type représente deux issues possible d'un calcul
+(* Ce type représente les deux issues possible d'un calcul :
    Une erreur, ou un succès *)
 
 type (‘a,’b) result =
@@ -409,24 +229,24 @@ let division a b : (string,int) result =
       en prenant une valeur qu'on vient coller
       a la tete d'une autre liste
 *)
-type 'a list
+type 'a myList
     | Nil (* type recursif parce qu'on référence 
             le type dans sa définition *)
-                 |
-                 v
-                -------
-    | Cons 'a * 'a list
+                   |
+                   v
+                 -------
+    | Cons 'a * 'a myList
     
 let empty_list = Nil
 let one_el_list = Cons(6,empty_list)
 let two_el_list = Cons(7,one_el_list)
 
-(* OCaml permet d'écrire ça plus simplement *)
+(* OCaml permet d'écrire ça plus simplement avec son type natif list *)
 
-let two_el_list : int list = 7 :: 6 :: empty
+let two_el_list : int list = 7 :: 6 :: []
 let two_el_list = [7;6]
 </code></pre>
-<p>Voici les différents types de sommes, c'est pas exhaustif mais je pense que ça suffira pour la suite !</p>
+<p>Les types sommes sont riche et je vais assez vite, ce n'est pas exhaustif, mais ça suffiras pour nous !</p>
 <h3 id="retour-à-notre-problème.">Retour à notre problème.</h3>
 <p>Alors, avant cette appartée sur les types sommes, on s'étaient arreté à</p>
 <pre><code class="language-ocaml">(* Notre fichier peut être dans trois états différents. *)
@@ -440,7 +260,7 @@ type state =
 </blockquote>
 <p>Maintenant que vous savez tous ce qu'est un type somme, vous avez compris qu'une fonction qui attend une valeur de type state, elle peut recevoir n'importe lequel des trois états, donc on est obligé de tout vérifier dynamiquement, en gros on laisse entrer tout et n'importe quoi dans nos fonctions de transitions et on se dit <em>&quot;on verra une fois sur place&quot;</em>
 <em>(je deteste cette phrase, arretez de me dire ça, je suis un control freak, je prévois tout a l'avance)</em>.</p>
-<p>Bon, du coup, on aimerait contrôler plus finement les états qui peuvent être envoyés en argument de nos fonctions. Finalement, si on reprend l'implem naive, on aimerais que les types de nos fonctions soient comme ça :</p>
+<p>Bon, du coup, on aimerait contrôler plus finement les états qui peuvent être envoyés en argument de nos fonctions et que nos fonctions renvoient. Finalement, si on reprend l'implem naive, on aimerais que les types de nos fonctions soient comme ça :</p>
 <pre><code class="language-ocaml=">             (* type de l'argument *)
                      |               (* type de sortie de la fonction *)
                      |                      |
@@ -450,7 +270,7 @@ let read_line (state: Readable) : Readable ou Eof
 
 let close_file (state: Readable ou Eof, les deux me vont poto) : Closed
 </code></pre>
-<p>Notre objectif va être de nous rapprocher le plus possible du caractère formel de notre notre dessin de machine à état, en ne pouvant compiler qu'un programme qui respecte strictement ses règles. Et pour réussir cet exploit, on va se servir de deux fonctionnalités particulière d'OCaml : <strong>les types algebriques generalisées</strong> et <strong>les variants polymorphes</strong>.</p>
+<p>Notre objectif va être de nous rapprocher le plus possible du caractère formel de notre dessin de machine à état, en ne pouvant compiler qu'un programme qui respecte strictement ses règles. Et pour réussir cet exploit, on va se servir de deux fonctionnalités particulière d'OCaml : <strong>les types algébrique généralisés</strong> et <strong>les variants polymorphes</strong>.</p>
 <h3 id="les-gadts">Les GADTs</h3>
 <p>Les <strong>GADTs</strong>, ou <em>types algébrique généralisées</em>, sont une extension extrêmement puissante de nos fameux <strong>types sommes</strong>. les GADTS introduisent plusieurs notions importantes qui redéfinissent en partie notre rapport a nos types sommes. Par exemple, l'un des fondamentaux dont j'ai parlé quand je vous ai expliqué les types sommes, c'est que tous les constructeurs d'un type construisent tous <strong>exactement</strong> le type en question, si c'est un type polymorphe, ils fixeront tous le même paramètre de type.</p>
 <p>Avec les GADTs, ce n'est plus nécessairement le cas. Je peux écrire un type dont les constructeurs fixeront chacun à leur manière le paramètre de type.</p>
@@ -460,14 +280,14 @@ let close_file (state: Readable ou Eof, les deux me vont poto) : Closed
   | String : string -&gt; string expression
   | Bool : bool -&gt; bool expression
 </code></pre>
-<p>Vous remarquerez que, contrairement à un type somme paramétré classique, on ne fait aucune référence à notre variable de type. En fait, on aurait pu l'écrire comme ça :</p>
+<p>Vous remarquerez que, contrairement à un type somme paramétré classique, on ne fait aucune référence à notre variable de type dans sa définition. Du coup, on aurait pu l'écrire comme ça :</p>
 <pre><code class="language-ocaml=">type _ expression = 
   | Int : int -&gt; int expression
   | String : string -&gt; string expression
   | Bool : bool -&gt; bool expression
 </code></pre>
-<p>Vous pourriez vous demander en quoi c'est si utile que cela en comparaison à une expression classique :</p>
-<pre><code class="language-ocaml=">type expression = 
+<p>Vous pourriez vous demander en quoi c'est si utile que ceçala en comparaison à une expression classique ?</p>
+<pre><code class="language-ocaml=">type Sexpression = 
   | SInt of int
   | SString of string 
   | SBool of bool 
@@ -477,19 +297,19 @@ let close_file (state: Readable ou Eof, les deux me vont poto) : Closed
 let f (e: _ expression) = match e with
     | String s -&gt; s
     
-let g (e : expression) = match e with
+let g (e : Sexpression) = match e with
     | SString s -&gt; s
 
 </code></pre>
 <p>La fonction <code>f</code> va compiler, et OCaml va déduire ce type pour la fonction :</p>
 <p><code>string expression -&gt; string</code></p>
-<p>Ehhh oui ! Comme notre constructeur String fixe tout seul dans son coin le parametre du type, ce pattern matching est exhaustif, on a traité tout les cas du type <code>string expression</code>, par contre pour la fonction <code>g</code>...</p>
+<p>Ehhh oui ! Comme notre constructeur <code>String</code> fixe tout seul dans son coin le parametre du type, ce pattern matching est exhaustif, on a traité tout les cas du type <code>string expression</code>, par contre pour la fonction <code>g</code>...</p>
 <pre><code>Warning : this pattern-matching is not exhaustive.
 Here is an example of a case that is not matched:
 (SInt _|SBool _)
 </code></pre>
-<p>Ça ne compile pas ! Et le message d'erreur est assez clair, on ne traite pas tous les cas du type d'expression, car nos trois constructeurs construisent exactement le type <code>expression</code> !</p>
-<p>Peut être que vous voyez déjà où je veux en venir avec tout ça, et que vous vous dite <em>« <strong>oh my god</strong> (j'essaye d'inclure les anglophones) quel outil de modélisation impressionnant, j’imagine qu’on va vouloir 3 constructeurs qui fixent chacun le parametre de type pour avoir un type différent par état ? »</em></p>
+<p>Ça ne compile pas ! Et le message d'erreur est assez clair, on ne traite pas tous les cas du type <code>Sexpression</code>, car nos trois constructeurs construisent exactement ce type !</p>
+<p>Peut être que vous voyez déjà où je veux en venir avec tout ça, et que vous vous dite <em>« <strong>oh my god</strong> (j'essaye d'inclure les anglophones) quel outil de modélisation impressionnant, j’imagine qu’on va vouloir 3 constructeurs qui fixent chacun un parametre de type représentant un état pour avoir un type différent par état ? »</em></p>
 <p>Oui c’est exactement ça en fait. Mais si vous essayiez instinctivement avec ce qu'on a appris, y’a des chances que vous essayiez de faire ça</p>
 <pre><code class="language-ocaml=">type _ state =            (*oh j'aimerais tellement faire ça*)
                                 |
@@ -508,7 +328,7 @@ type _ state =
   | Eof : in_channel -&gt; eof state
   | Closed : in_channel -&gt; closed state
 </code></pre>
-<p>On a notre GADT qui fait ce qu'on avait imaginé, et on peut écrire la fonction</p>
+<p>Maintenant on a notre GADT qui décrit ce qu'on avait imaginé ! Et on peut écrire la fonction</p>
 <p><code>let open_file file_path = Readable (open_in file_path)</code> ça fonctionne très bien.</p>
 <p>Par contre, pour <code>read_line</code>et <code>close_line</code>, si on se remémore notre spécification. <em>(enrichi avec les nouveaux types qu'on a créés.)</em>, ce qu'on voudrais décrire en terme de type, c'est :</p>
 <pre><code class="language-ocaml=">             (* type de l'argument *)
@@ -521,7 +341,7 @@ let read_line (state: readable state) : readable state ou eof state
 let close_file 
 (state: readable state ou eof state, les deux me vont poto) : closed state
 </code></pre>
-<p>Et les types &quot;classique&quot; <em>(a comprendre, tout ce qu'on a vu jusqu'à présent.)</em> ne nous permettent pas de décrire un type comme <code>readable | eof</code></p>
+<p>Et les constructions vis a vis des types qu'on a vu jusqu'a maintenant ne nous permettent pas de décrire un type comme <code>readable ou eof</code></p>
 <p>Heureusement, ce sacripan d'OCaml nous offre une construction pour arranger ça !</p>
 <h4 id="les-variants-polymorphes">Les variants polymorphes</h4>
 <p>OCaml nous donne un moyen de créer a la volée des constructeurs de type qui n'appartiennent a aucun type définis dans le programme. Contrairement a un constructeur classique qu'on attache a un type <code>t</code> comme :</p>
@@ -582,7 +402,7 @@ let () = f (foo_or_bar false) (* ne compile pas ! *)
 <ul>
 <li>Comme on veut pouvoir exprimer des contraintes comme : readable ou eof, les deux variants polymorphes [&gt; `Readable] et [&gt; `Eof] sont ouvert, et pourront donc etre composé.
 </li>
-<li>Une fois que le fichier est fermé, on ne peut plus l'utilisé, donc le variant polymorphe [`Closed] est fermé <em>(pas besoin du <code>&lt;</code>, c'est fermé par défaut)</em>
+<li>Une fois que le fichier est fermé, on ne peut plus l'utilisé, donc le variant polymorphe [`Closed] est fermé <em>(pas besoin du <code>&lt;</code>, c'est fermé par défaut).</em>
 </li>
 </ul>
 <p>A partir de ce type, on va pouvoir écrire l'API sûre vis-à-vis de la spécification que nous nous sommes fixée. La fonction <code>open_file</code> reste le même !</p>
@@ -603,7 +423,7 @@ let () = f (foo_or_bar false) (* ne compile pas ! *)
 </code></pre>
 <p>Quelques points pour conclure :</p>
 <ul>
-<li>Notre GADTs <code>state</code> nous permet de tracker l'état du fichier
+<li>Notre GADTs <code>state</code> nous permet de tracker l'état du fichier.
 </li>
 <li>Les variants polymorphes nous permettent de décrire des fonctions qui peuvent prendre plusieurs états, un outil de modélisation indispensable lorsque l'on souhaite décrire une machine a état, ou il est courant d'avoir plusieurs transitions possible pour un état.
 </li>
@@ -647,6 +467,7 @@ let () = f (foo_or_bar false) (* ne compile pas ! *)
         </div>
       </div>
     </main>
+    <script>hljs.highlightAll();</script>
 </body>
 <footer class="footer">
     <div class=" has-text-centered">
