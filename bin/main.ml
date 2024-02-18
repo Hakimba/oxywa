@@ -2,6 +2,7 @@ open Yocaml
 
 let pages_destination = "_site/oxywa";;
 let css_destination = into pages_destination "css";;
+let js_destination = into pages_destination "js"
 let images_destination = into pages_destination "images";;
 
 let track_binary_update = Build.watch Sys.argv.(0);;
@@ -9,6 +10,10 @@ let track_binary_update = Build.watch Sys.argv.(0);;
 let css =
   process_files [ "css/" ] (with_extension "css")
   (fun file -> Build.copy_file file ~into:css_destination);;
+
+let js =
+  process_files [ "js/" ] (with_extension "js")
+  (fun file -> Build.copy_file file  ~into:js_destination)
 
 let images =
   let open Preface.Predicate in
@@ -93,4 +98,4 @@ let () =
 ;;
 
 let () =
-  Yocaml_unix.execute (pages >> css >> images >> articles >> index)
+  Yocaml_unix.execute (pages >> css >> js >> images >> articles >> index)

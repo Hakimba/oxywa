@@ -16,30 +16,18 @@ Cet article est le deuxième d'une série consacrée à la traduction en OCaml d
 
 ### Cas 2 : Une vraie machine à état
 
-Je vais partir du principe, malheureusement, que vous êtes déjà familiarisé avec le concept de machine à état. Permettez-moi toutefois de le résumer brièvement : les machines à état sont un outil permettant de modéliser le comportement d'un système en utilisant un ensemble d'états et des transitions entre ces états.
+Je vais partir du principe, malheureusement, que vous êtes déjà familiarisé avec le concept de machine à état. Permettez-moi toutefois de le résumer brièvement : *les machines à état sont un outil permettant de modéliser le comportement d'un système en utilisant un ensemble d'états et des transitions entre ces états.*
 
 Un exemple simple c'est toujours mieux :
 
 
-```mermaid
-stateDiagram
-    Closed --> Opened : Open
-    Opened --> Closed : Close
+![](../images/statemachine.png)
 
-```
 Voici une machine à état qui représente une porte et l'utilisation usuelle qu'on peut faire d'une porte : l'ouvrir et la fermer. Nous avons deux états possibles, représentant respectivement la porte fermée et ouverte, ainsi que deux transitions permettant de passer d'un état à l'autre. 
 
 Pour notre petit moment ensemble, nous allons prendre une machine à état un peu plus intéressante qui modélise un ensemble de manipulations possibles sur un fichier en OCaml.
 
-```mermaid
-stateDiagram
-    [*] --> Read : open_in
-    Read --> Read : input_line
-    Read --> EOF : input_line
-    EOF --> Closed : close_in
-    Read --> Closed : close_in
-
-```
+![](../images/statemachine2.png)
 
 Cette machine a état nous dit formellement que : 
 
@@ -49,12 +37,12 @@ Cette machine a état nous dit formellement que :
 - Je peux fermer un fichier qui est lu en entier (EOF).
 - Je peux fermer un fichier ouvert, qu'il ait déjà été entièrement lu ou qu'il puisse encore être lu.
 
-Elle nous dit également ce que l'on ne peut pas : 
+Elle nous dit également ce que l'on ne peut pas faire : 
 - Fermer un fichier déjà fermé.
 - Lire un fichier qui a été intégralement lu.
 - Lire un fichier fermé.
 
-Si vous deviez implémenter cette machine à état, comment le feriez-vous ? Je pense qu'une première version naïve ressemblerait à ceci pour la plupart d'entre nous. *(je vais décrire la logique via des commentaires)* :
+Si vous deviez implémenter cette machine à état, comment le feriez-vous ? Je pense qu'une première version naïve ressemblerait à ceci pour la plupart d'entre nous. *(je vais décrire la sémantique des fonctions via des commentaires)* :
 ```ocaml=
 (* Notre fichier peut être dans trois états différents. *)
 type state =
@@ -128,7 +116,7 @@ On peut introduire la notion de type somme en l'opposant à celle de **type prod
 type user = {name : string; is_admin : bool}
 ```
 
-On peut lire le type user comme : *"Une valeur de type `user` est composée d'un `name` **et** un `is_admin`"*
+On peut lire le type user comme : *"Une valeur de type `user` est composée d'un `name` **et** d'un `is_admin`"*
 
 Alors que notre type `week_day` va se lire : *"Je peux **construire** 7 valeurs de **type** `week_day` : Monday, **ou** Tuesday, **ou**..."*. Et pour aller plus vite, on dit que Monday, Tuesday, etc. sont des **constructeurs**.
 
@@ -211,7 +199,7 @@ let string_option = Some "test"
    deux autres exemples *)
 let option_option : 'a option option = Some None
 
-(* le type de cette fonction : 'a option-> 'a -> 'a *)
+(* le type de cette fonction : 'a option -> 'a -> 'a *)
 let getOrDefault opt default = match opt with
     | Some v -> v
     | None -> default
@@ -222,7 +210,7 @@ On peut également avoir un type parametré par plusieurs types, et c'est très 
 
 ```ocaml=
 
-(* Ce type représente deux issues possible d'un calcul
+(* Ce type représente les deux issues possible d'un calcul :
    Une erreur, ou un succès *)
 
 type (‘a,’b) result =
@@ -246,25 +234,25 @@ Les deux constructeurs du type result ont beau avoir deux paramètres de types d
       en prenant une valeur qu'on vient coller
       a la tete d'une autre liste
 *)
-type 'a list
+type 'a myList
     | Nil (* type recursif parce qu'on référence 
             le type dans sa définition *)
-                 |
-                 v
-                -------
-    | Cons 'a * 'a list
+                   |
+                   v
+                 -------
+    | Cons 'a * 'a myList
     
 let empty_list = Nil
 let one_el_list = Cons(6,empty_list)
 let two_el_list = Cons(7,one_el_list)
 
-(* OCaml permet d'écrire ça plus simplement *)
+(* OCaml permet d'écrire ça plus simplement avec son type natif list *)
 
-let two_el_list : int list = 7 :: 6 :: empty
+let two_el_list : int list = 7 :: 6 :: []
 let two_el_list = [7;6]
 ```
 
-Voici les différents types de sommes, c'est pas exhaustif mais je pense que ça suffira pour la suite !
+Les types sommes sont riche et je vais assez vite, ce n'est pas exhaustif, mais ça suffiras pour nous !
 
 ### Retour à notre problème.
 
@@ -284,7 +272,7 @@ type state =
 Maintenant que vous savez tous ce qu'est un type somme, vous avez compris qu'une fonction qui attend une valeur de type state, elle peut recevoir n'importe lequel des trois états, donc on est obligé de tout vérifier dynamiquement, en gros on laisse entrer tout et n'importe quoi dans nos fonctions de transitions et on se dit *"on verra une fois sur place"*
 *(je deteste cette phrase, arretez de me dire ça, je suis un control freak, je prévois tout a l'avance)*.
 
-Bon, du coup, on aimerait contrôler plus finement les états qui peuvent être envoyés en argument de nos fonctions. Finalement, si on reprend l'implem naive, on aimerais que les types de nos fonctions soient comme ça : 
+Bon, du coup, on aimerait contrôler plus finement les états qui peuvent être envoyés en argument de nos fonctions et que nos fonctions renvoient. Finalement, si on reprend l'implem naive, on aimerais que les types de nos fonctions soient comme ça : 
 
 ```ocaml=
              (* type de l'argument *)
@@ -297,7 +285,7 @@ let read_line (state: Readable) : Readable ou Eof
 let close_file (state: Readable ou Eof, les deux me vont poto) : Closed
 ```
 
-Notre objectif va être de nous rapprocher le plus possible du caractère formel de notre notre dessin de machine à état, en ne pouvant compiler qu'un programme qui respecte strictement ses règles. Et pour réussir cet exploit, on va se servir de deux fonctionnalités particulière d'OCaml : **les types algebriques generalisées** et **les variants polymorphes**.
+Notre objectif va être de nous rapprocher le plus possible du caractère formel de notre dessin de machine à état, en ne pouvant compiler qu'un programme qui respecte strictement ses règles. Et pour réussir cet exploit, on va se servir de deux fonctionnalités particulière d'OCaml : **les types algébrique généralisés** et **les variants polymorphes**.
 
 
 ### Les GADTs
@@ -314,7 +302,7 @@ type 'a expression =
   | Bool : bool -> bool expression
 ```
 
-Vous remarquerez que, contrairement à un type somme paramétré classique, on ne fait aucune référence à notre variable de type. En fait, on aurait pu l'écrire comme ça : 
+Vous remarquerez que, contrairement à un type somme paramétré classique, on ne fait aucune référence à notre variable de type dans sa définition. Du coup, on aurait pu l'écrire comme ça : 
 
 ```ocaml=
 type _ expression = 
@@ -323,10 +311,10 @@ type _ expression =
   | Bool : bool -> bool expression
 ```
 
-Vous pourriez vous demander en quoi c'est si utile que cela en comparaison à une expression classique : 
+Vous pourriez vous demander en quoi c'est si utile que ceçala en comparaison à une expression classique ? 
 
 ```ocaml=
-type expression = 
+type Sexpression = 
   | SInt of int
   | SString of string 
   | SBool of bool 
@@ -339,7 +327,7 @@ Eh bien, un premier élément de réponse peut être exposé en essayant de fair
 let f (e: _ expression) = match e with
     | String s -> s
     
-let g (e : expression) = match e with
+let g (e : Sexpression) = match e with
     | SString s -> s
 
 ```
@@ -348,7 +336,7 @@ La fonction `f` va compiler, et OCaml va déduire ce type pour la fonction :
 
 `string expression -> string`
 
-Ehhh oui ! Comme notre constructeur String fixe tout seul dans son coin le parametre du type, ce pattern matching est exhaustif, on a traité tout les cas du type `string expression`, par contre pour la fonction `g`...
+Ehhh oui ! Comme notre constructeur `String` fixe tout seul dans son coin le parametre du type, ce pattern matching est exhaustif, on a traité tout les cas du type `string expression`, par contre pour la fonction `g`...
 
 ```
 Warning : this pattern-matching is not exhaustive.
@@ -356,9 +344,9 @@ Here is an example of a case that is not matched:
 (SInt _|SBool _)
 ```
 
-Ça ne compile pas ! Et le message d'erreur est assez clair, on ne traite pas tous les cas du type d'expression, car nos trois constructeurs construisent exactement le type `expression` !
+Ça ne compile pas ! Et le message d'erreur est assez clair, on ne traite pas tous les cas du type `Sexpression`, car nos trois constructeurs construisent exactement ce type !
 
-Peut être que vous voyez déjà où je veux en venir avec tout ça, et que vous vous dite *« **oh my god** (j'essaye d'inclure les anglophones) quel outil de modélisation impressionnant, j’imagine qu’on va vouloir 3 constructeurs qui fixent chacun le parametre de type pour avoir un type différent par état ? »*
+Peut être que vous voyez déjà où je veux en venir avec tout ça, et que vous vous dite *« **oh my god** (j'essaye d'inclure les anglophones) quel outil de modélisation impressionnant, j’imagine qu’on va vouloir 3 constructeurs qui fixent chacun un parametre de type représentant un état pour avoir un type différent par état ? »*
 
 Oui c’est exactement ça en fait. Mais si vous essayiez instinctivement avec ce qu'on a appris, y’a des chances que vous essayiez de faire ça
 
@@ -385,7 +373,7 @@ type _ state =
   | Closed : in_channel -> closed state
 ```
 
-On a notre GADT qui fait ce qu'on avait imaginé, et on peut écrire la fonction 
+Maintenant on a notre GADT qui décrit ce qu'on avait imaginé ! Et on peut écrire la fonction 
 
 `let open_file file_path = Readable (open_in file_path)` ça fonctionne très bien.
 
@@ -403,7 +391,7 @@ let close_file
 (state: readable state ou eof state, les deux me vont poto) : closed state
 ```
 
-Et les types "classique" *(a comprendre, tout ce qu'on a vu jusqu'à présent.)* ne nous permettent pas de décrire un type comme `readable | eof`
+Et les constructions vis a vis des types qu'on a vu jusqu'a maintenant ne nous permettent pas de décrire un type comme `readable ou eof`
 
 Heureusement, ce sacripan d'OCaml nous offre une construction pour arranger ça !
 
@@ -483,7 +471,7 @@ type _ state =
 
 Plusieurs trucs intéréssant : 
 * Comme on veut pouvoir exprimer des contraintes comme : readable ou eof, les deux variants polymorphes [> \`Readable] et [> \`Eof] sont ouvert, et pourront donc etre composé.
-* Une fois que le fichier est fermé, on ne peut plus l'utilisé, donc le variant polymorphe [\`Closed] est fermé *(pas besoin du `<`, c'est fermé par défaut)*
+* Une fois que le fichier est fermé, on ne peut plus l'utilisé, donc le variant polymorphe [\`Closed] est fermé *(pas besoin du `<`, c'est fermé par défaut).*
 
 A partir de ce type, on va pouvoir écrire l'API sûre vis-à-vis de la spécification que nous nous sommes fixée. La fonction `open_file` reste le même !
 
@@ -510,7 +498,7 @@ let close_file (state: [< `Readable | `Eof] state) : [`Closed] state = match sta
 ```
 
 Quelques points pour conclure : 
-* Notre GADTs `state` nous permet de tracker l'état du fichier
+* Notre GADTs `state` nous permet de tracker l'état du fichier.
 * Les variants polymorphes nous permettent de décrire des fonctions qui peuvent prendre plusieurs états, un outil de modélisation indispensable lorsque l'on souhaite décrire une machine a état, ou il est courant d'avoir plusieurs transitions possible pour un état.
 
 En tout cas, c'est gagné ! On a notre machine a état qui nous oblige a utiliser les bons états avec les bonnes transitions : 
